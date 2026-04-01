@@ -1,1 +1,108 @@
-[]
+[
+  {
+    "name": "SharpEdge_PL",
+    "url": "https://blogabet.com/SharpEdge_PL",
+    "yield_pct": 8.4,
+    "picks_count": 1247,
+    "verification": "paid",
+    "bookmaker_profile": "asian_dominant",
+    "recent_form_yield": 6.2,
+    "specialization": "mono_specialist",
+    "resets": 0,
+    "analysis_quality": "detailed_value",
+    "top_sports": [
+      "Football"
+    ],
+    "top_leagues": [
+      "Eng. Premier",
+      "Spa. Primera"
+    ],
+    "odds_avg": 1.95,
+    "win_rate": 54.2,
+    "live_pct": 10,
+    "avg_hours_before_match": 24,
+    "followers": 342,
+    "avg_stake": 5.2,
+    "months_active": 12,
+    "profitable_months_12": 6,
+    "pinnacle_yield": 7.8,
+    "soft_bookie_yield": 9.1,
+    "live_yield": null,
+    "prematch_yield": null,
+    "sport_percentages": {},
+    "bookie_percentages": {},
+    "top_bookmakers": [],
+    "scraped_at": "2026-04-01T17:50:50.509833"
+  },
+  {
+    "name": "ValueHunter_CZ",
+    "url": "https://blogabet.com/ValueHunter_CZ",
+    "yield_pct": 11.2,
+    "picks_count": 834,
+    "verification": "pro",
+    "bookmaker_profile": "asian_dominant",
+    "recent_form_yield": 9.1,
+    "specialization": "mono_specialist",
+    "resets": 0,
+    "analysis_quality": "short_desc",
+    "top_sports": [
+      "Basketball"
+    ],
+    "top_leagues": [
+      "NBA",
+      "Euroleague"
+    ],
+    "odds_avg": 1.92,
+    "win_rate": 55.8,
+    "live_pct": 10,
+    "avg_hours_before_match": 24,
+    "followers": 189,
+    "avg_stake": 5.0,
+    "months_active": 12,
+    "profitable_months_12": 6,
+    "pinnacle_yield": 10.5,
+    "soft_bookie_yield": null,
+    "live_yield": null,
+    "prematch_yield": null,
+    "sport_percentages": {},
+    "bookie_percentages": {},
+    "top_bookmakers": [],
+    "scraped_at": "2026-04-01T17:50:50.509995"
+  },
+  {
+    "name": "EarlyBird_DE",
+    "url": "https://blogabet.com/EarlyBird_DE",
+    "yield_pct": 14.5,
+    "picks_count": 612,
+    "verification": "paid",
+    "bookmaker_profile": "mixed",
+    "recent_form_yield": 12.3,
+    "specialization": "focused_multi",
+    "resets": 1,
+    "analysis_quality": "short_desc",
+    "top_sports": [
+      "Football",
+      "Tennis"
+    ],
+    "top_leagues": [
+      "Ger. Bundesliga I",
+      "Spa. Segunda"
+    ],
+    "odds_avg": 2.15,
+    "win_rate": 49.1,
+    "live_pct": 10,
+    "avg_hours_before_match": 72,
+    "followers": 95,
+    "avg_stake": 5.0,
+    "months_active": 12,
+    "profitable_months_12": 6,
+    "pinnacle_yield": 8.2,
+    "soft_bookie_yield": 16.1,
+    "live_yield": null,
+    "prematch_yield": null,
+    "sport_percentages": {},
+    "bookie_percentages": {},
+    "top_bookmakers": [],
+    "scraped_at": "2026-04-01T17:50:50.510133"
+  }
+]
