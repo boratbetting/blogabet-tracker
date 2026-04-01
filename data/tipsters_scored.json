@@ -33,7 +33,7 @@
     "top_bookmakers": [
       "Pinnacle"
     ],
-    "scraped_at": "2026-04-01T15:04:37.850519+00:00",
+    "scraped_at": "2026-04-01T15:13:00.628820+00:00",
     "is_demo": true,
     "score": 93,
     "score_breakdown": {
@@ -50,7 +50,7 @@
     "red_flag_count": 0,
     "market_type": "mature",
     "grade": "A",
-    "analyzed_at": "2026-04-01T15:04:37.962957+00:00"
+    "analyzed_at": "2026-04-01T15:13:00.751050+00:00"
   },
   {
     "name": "DEMO_IceHockey_Pro",
@@ -88,7 +88,7 @@
       "Pinnacle",
       "Bet365"
     ],
-    "scraped_at": "2026-04-01T15:04:37.850519+00:00",
+    "scraped_at": "2026-04-01T15:13:00.628820+00:00",
     "is_demo": true,
     "score": 86,
     "score_breakdown": {
@@ -105,7 +105,7 @@
     "red_flag_count": 0,
     "market_type": "mature",
     "grade": "A",
-    "analyzed_at": "2026-04-01T15:04:37.963065+00:00"
+    "analyzed_at": "2026-04-01T15:13:00.751161+00:00"
   },
   {
     "name": "DEMO_LiveKing_FRAUD",
@@ -144,7 +144,7 @@
       "Bet365",
       "Unibet"
     ],
-    "scraped_at": "2026-04-01T15:04:37.850519+00:00",
+    "scraped_at": "2026-04-01T15:13:00.628820+00:00",
     "is_demo": true,
     "score": 42,
     "score_breakdown": {
@@ -168,6 +168,6 @@
     "market_type": "live",
     "grade": "F",
     "grade_note": "Auto-F: ≥3 red flags",
-    "analyzed_at": "2026-04-01T15:04:37.963098+00:00"
+    "analyzed_at": "2026-04-01T15:13:00.751194+00:00"
   }
 ]
