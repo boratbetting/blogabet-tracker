@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-BLOGABET AUTO-SCRAPER v6 — navigate via clicks to keep session
+BLOGABET AUTO-SCRAPER v7 — debug login failure
 """
 
 import asyncio, json, os, re
@@ -20,7 +20,6 @@ DATA_DIR = ROOT / "data"
 RAW_FILE = DATA_DIR / "tipsters_raw.json"
 
 def now_utc(): return datetime.now(timezone.utc)
-
 def save_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -73,60 +72,40 @@ class BlogabetScraper:
         log("Przeglądarka uruchomiona")
 
     async def close(self):
-        if self.browser:
-            await self.browser.close()
-            log("Przeglądarka zamknięta")
+        if self.browser: await self.browser.close(); log("Przeglądarka zamknięta")
 
     async def _click(self, sel, timeout=3000):
         try:
             el = self.page.locator(sel).first
-            if await el.is_visible(timeout=timeout):
-                await el.click()
-                await asyncio.sleep(0.5)
-                return True
+            if await el.is_visible(timeout=timeout): await el.click(); await asyncio.sleep(0.5); return True
         except: pass
         return False
 
     async def _dismiss(self):
-        for s in ["button:has-text('Accept')","button:has-text('OK')","button:has-text('Yes')","a:has-text('Yes')","button:has-text('Enter')"]:
+        for s in ["button:has-text('Accept')","button:has-text('OK')","button:has-text('Yes')","a:has-text('Yes')"]:
             await self._click(s, 1000)
-
-    async def _nav_click(self, label):
-        """Navigate by clicking a link with given text, wait for load."""
-        for sel in [f"a:has-text('{label}')", f"button:has-text('{label}')"]:
-            try:
-                el = self.page.locator(sel).first
-                if await el.is_visible(timeout=3000):
-                    await el.click()
-                    await asyncio.sleep(3)
-                    log(f"  Nawigacja kliknięciem: '{label}' → {self.page.url}")
-                    return True
-            except:
-                pass
-        return False
 
     # ── LOGIN ────────────────────────────────────────────────────
     async def login(self):
         if not BLOGABET_USER or not BLOGABET_PASS:
             log("Brak credentials","WARN"); return False
 
-        log(f"Logowanie jako: {BLOGABET_USER[:3]}***")
+        log(f"Logowanie jako: {BLOGABET_USER[:5]}***")
+
         await self.page.goto(BASE_URL, wait_until="domcontentloaded")
         await asyncio.sleep(2)
         await self._dismiss()
 
         # Click LOG IN
         for sel in ["a:has-text('LOG IN')","a:has-text('Log In')","button:has-text('LOG IN')"]:
-            if await self._click(sel, 2000):
-                log(f"  Kliknięto: {sel}"); break
+            if await self._click(sel, 2000): log(f"  Kliknięto: {sel}"); break
 
         # Wait for password field
         log("  Czekam na formularz...")
         pass_field = None
         for _ in range(20):
             await asyncio.sleep(0.5)
-            inputs = await self.page.query_selector_all("input[type='password']")
-            for inp in inputs:
+            for inp in await self.page.query_selector_all("input[type='password']"):
                 if await self.page.evaluate("(el) => el.offsetParent !== null", inp):
                     pass_field = inp; break
             if pass_field: break
@@ -134,45 +113,117 @@ class BlogabetScraper:
         if not pass_field:
             log("  Brak pola password po 10s","WARN"); return False
 
-        log("  Formularz znaleziony")
+        # Dump ALL visible inputs in detail
+        all_inputs = await self.page.query_selector_all("input")
+        visible_inputs = []
+        for inp in all_inputs:
+            attrs = await self.page.evaluate("""(el) => ({
+                type: el.type||'', name: el.name||'', id: el.id||'',
+                placeholder: el.placeholder||'', className: el.className||'',
+                visible: el.offsetParent !== null,
+                rect: el.getBoundingClientRect().toJSON()
+            })""", inp)
+            if attrs["visible"]:
+                visible_inputs.append({"el": inp, **attrs})
+                log(f"  VISIBLE INPUT: type={attrs['type']} name={attrs['name']} id={attrs['id']} "
+                    f"placeholder='{attrs['placeholder']}' class={attrs['className'][:40]} "
+                    f"pos=({int(attrs['rect']['x'])},{int(attrs['rect']['y'])})")
 
-        # Find text field
-        text_field = None
-        for inp in await self.page.query_selector_all("input"):
-            t = (await inp.get_attribute("type") or "").lower()
-            vis = await self.page.evaluate("(el) => el.offsetParent !== null", inp)
-            if vis and t in ("text","email",""):
-                text_field = inp; break
+        # Find the EMAIL field specifically — look for type=email, or placeholder with email/user
+        email_field = None
+        for vi in visible_inputs:
+            t = vi["type"].lower()
+            ph = vi["placeholder"].lower()
+            nm = vi["name"].lower()
+            cls = vi["className"].lower()
 
-        if not text_field:
-            log("  Brak pola username","WARN"); return False
+            if t == "password":
+                continue  # skip password fields
 
-        await text_field.fill(BLOGABET_USER)
+            # Priority 1: type=email
+            if t == "email":
+                email_field = vi["el"]; log(f"  → Email field found (type=email)"); break
+            # Priority 2: placeholder/name contains email/user/login
+            if any(kw in ph for kw in ["email","mail","user","login","nazwa","e-mail"]):
+                email_field = vi["el"]; log(f"  → Email field found (placeholder='{vi['placeholder']}')"); break
+            if any(kw in nm for kw in ["email","mail","user","login"]):
+                email_field = vi["el"]; log(f"  → Email field found (name={vi['name']})"); break
+
+        # Fallback: first visible text input that's NOT search
+        if not email_field:
+            for vi in visible_inputs:
+                t = vi["type"].lower()
+                ph = vi["placeholder"].lower()
+                if t in ("text","") and "search" not in ph and "szukaj" not in ph:
+                    email_field = vi["el"]; log(f"  → Email field fallback (type={vi['type']})"); break
+
+        if not email_field:
+            log("  Nie znaleziono pola email/username","WARN"); return False
+
+        # Fill form
+        log("  Wypełniam formularz...")
+        await email_field.click()
+        await asyncio.sleep(0.2)
+        await email_field.fill("")  # clear first
+        await email_field.type(BLOGABET_USER, delay=50)  # type char by char
         await asyncio.sleep(0.3)
-        await pass_field.fill(BLOGABET_PASS)
+
+        await pass_field.click()
+        await asyncio.sleep(0.2)
+        await pass_field.fill("")
+        await pass_field.type(BLOGABET_PASS, delay=50)
         await asyncio.sleep(0.3)
 
+        # Verify what was typed
+        email_val = await self.page.evaluate("(el) => el.value", email_field)
+        pass_val = await self.page.evaluate("(el) => el.value.length", pass_field)
+        log(f"  Wpisano: email='{email_val[:5]}***' pass_len={pass_val}")
+
+        # Submit
         for sel in ["button[type='submit']","button:has-text('Log In')","button:has-text('LOG IN')","button:has-text('Login')","form button"]:
-            if await self._click(sel, 2000):
-                log(f"  Submit: {sel}"); break
+            if await self._click(sel, 2000): log(f"  Submit: {sel}"); break
         else:
             await pass_field.press("Enter"); log("  Submit: Enter")
 
+        # Wait for response
         await asyncio.sleep(5)
 
-        # Verify
+        # ── DEBUG: What does the page show now? ──
+        page_text = await self.page.evaluate("() => document.body.innerText.substring(0, 500)")
+        log(f"  Page po submit: {page_text[:300]}...")
+
+        current_url = self.page.url
+        log(f"  URL po submit: {current_url}")
+
+        # Check for error messages
+        errors = await self.page.evaluate("""() => {
+            const errs = [];
+            document.querySelectorAll('.error, .alert, .warning, .message, [class*="error"], [class*="alert"], [class*="invalid"], [class*="wrong"]').forEach(el => {
+                if (el.offsetParent !== null && el.textContent.trim()) {
+                    errs.push(el.textContent.trim().substring(0, 100));
+                }
+            });
+            return errs;
+        }""")
+        if errors:
+            log(f"  ERROR MESSAGES: {errors}")
+
+        # Check login success
         html = await self.page.content()
         if any(x in html.lower() for x in ["logout","log out","sign out","my profile","my tipsters","seller admin"]):
             self.logged_in = True
             log("  ✓ ZALOGOWANO!")
-
-            # Save cookies for debugging
-            cookies = await self.context.cookies()
-            session_cookies = [c["name"] for c in cookies if "session" in c["name"].lower() or "token" in c["name"].lower() or "auth" in c["name"].lower() or "PHPSESSID" in c["name"]]
-            log(f"  Session cookies: {session_cookies}")
-            log(f"  Total cookies: {len(cookies)}")
         else:
             log("  ✗ Login nieudany","WARN")
+            # Extra debug: check if "LOG IN" button is still visible (means not logged in)
+            still_login = await self.page.evaluate("""() => {
+                const links = document.querySelectorAll('a, button');
+                for (const l of links) {
+                    if (l.textContent.trim().toUpperCase() === 'LOG IN' && l.offsetParent !== null) return true;
+                }
+                return false;
+            }""")
+            log(f"  'LOG IN' nadal widoczny: {still_login}")
 
         return self.logged_in
 
@@ -181,44 +232,30 @@ class BlogabetScraper:
         log("Odkrywanie typerów...")
 
         if self.logged_in:
-            # NAVIGATE BY CLICKING LINKS — preserves session
-            log("  Nawiguję przez kliknięcia (sesja aktywna)...")
-
-            # Try clicking "All Tipsters" or "Tipsters" in nav
-            nav_targets = ["All Tipsters", "Tipsters", "Feed", "Tips"]
-            for target in nav_targets:
-                if len(self.collected_urls) >= MAX_TIPSTERS:
-                    break
-
-                log(f"  Próbuję kliknąć: '{target}'")
-                if await self._nav_click(target):
-                    # Check if we can see content
-                    preview = await self.page.evaluate("() => document.body.innerText.substring(0, 300)")
-                    log(f"  Preview: {preview[:200]}...")
-
-                    if "please log in" in preview.lower():
-                        log("  ⚠ Nadal wymaga loginu po kliknięciu","WARN")
-                        continue
-
-                    await self._extract_links()
-
-                    # Scroll and load more
-                    for _ in range(5):
-                        await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-                        await asyncio.sleep(2)
-                        for sel in [".load-more","button:has-text('Load more')","a:has-text('Next')","a:has-text('»')"]:
-                            await self._click(sel, 1500)
-                        await self._extract_links()
-                else:
-                    log(f"  Nie znaleziono linku '{target}'")
-
+            # Navigate by clicking
+            for target in ["All Tipsters","Tipsters","Feed","Tips"]:
+                if len(self.collected_urls) >= MAX_TIPSTERS: break
+                log(f"  Klikam: '{target}'")
+                for sel in [f"a:has-text('{target}')",f"button:has-text('{target}')"]:
+                    try:
+                        el = self.page.locator(sel).first
+                        if await el.is_visible(timeout=2000):
+                            await el.click(); await asyncio.sleep(3)
+                            log(f"  → {self.page.url}")
+                            preview = await self.page.evaluate("() => document.body.innerText.substring(0, 200)")
+                            if "please log in" in preview.lower():
+                                log("  ⚠ Wymaga logowania","WARN"); continue
+                            await self._extract_links()
+                            for _ in range(3):
+                                await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                                await asyncio.sleep(2)
+                                await self._extract_links()
+                            break
+                    except: pass
         else:
-            # Fallback: try goto (won't work if login required)
             for url in [f"{BASE_URL}/tipsters", f"{BASE_URL}/feed"]:
-                log(f"  goto: {url}")
                 await self.page.goto(url, wait_until="domcontentloaded")
                 await asyncio.sleep(3)
-                await self._dismiss()
                 preview = await self.page.evaluate("() => document.body.innerText.substring(0, 200)")
                 if "please log in" not in preview.lower():
                     await self._extract_links()
@@ -226,20 +263,9 @@ class BlogabetScraper:
         log(f"Odkryto {len(self.collected_urls)} typerów")
 
     async def _extract_links(self):
-        links = await self.page.evaluate("""() =>
-            Array.from(document.querySelectorAll('a[href]')).map(a => a.getAttribute('href')||'')
-        """)
-
-        excluded = {
-            "","/","/login","/register","/help","/tips","/tipsters","/feed",
-            "/betting-guide","/auto-betting","/announcement","/terms","/privacy",
-            "/about","/contact","/cashback","/seller-admin","/forgot-password",
-            "/bookmakers","/customer-support","/market","/pricing","/academy",
-            "/search","/promotions","/blog","/faq"
-        }
-        bad = ["/betting-guide/","/announcement/","/cashback/","/help/","/page/",
-            "/static/","/assets/","/bookmakers/","/academy/","/blog/","/auto-betting/"]
-
+        links = await self.page.evaluate("() => Array.from(document.querySelectorAll('a[href]')).map(a => a.getAttribute('href')||'')")
+        excluded = {"","/","/login","/register","/help","/tips","/tipsters","/feed","/betting-guide","/auto-betting","/announcement","/terms","/privacy","/about","/contact","/cashback","/seller-admin","/forgot-password","/bookmakers","/customer-support","/market","/pricing","/academy","/search","/promotions","/blog","/faq"}
+        bad = ["/betting-guide/","/announcement/","/cashback/","/help/","/page/","/static/","/assets/","/bookmakers/","/academy/","/blog/","/auto-betting/"]
         before = len(self.collected_urls)
         for href in links:
             if not href: continue
@@ -254,78 +280,51 @@ class BlogabetScraper:
             if any(x in path for x in [".png",".jpg",".css",".js"]): continue
             if re.match(r'^/[a-zA-Z0-9][a-zA-Z0-9_\-]{1,60}$', path):
                 self.collected_urls.add(f"{BASE_URL}{path}")
-
         added = len(self.collected_urls) - before
         if added: log(f"    +{added} (total: {len(self.collected_urls)})")
 
     # ── SCRAPE ───────────────────────────────────────────────────
     async def scrape_profile(self, url):
         try:
-            # Navigate by clicking if possible, fallback to goto
-            name = url.rstrip("/").split("/")[-1]
-
-            # Use goto but with cookies already set from login
             await self.page.goto(url, wait_until="domcontentloaded")
-            await asyncio.sleep(2)
-            await self._dismiss()
-
-            if any(x in self.page.url for x in ["/bookmakers","/login"]):
-                return None
-
+            await asyncio.sleep(2); await self._dismiss()
+            if any(x in self.page.url for x in ["/bookmakers","/login"]): return None
             text = await self.page.evaluate("() => document.body.innerText")
             html = await self.page.content()
-
-            if not any(kw in text for kw in ["PICKS","YIELD","PROFIT"]):
-                return None
-
-            t = {"url":url,"name":name,"scraped_at":now_utc().isoformat()}
-
+            if not any(kw in text for kw in ["PICKS","YIELD","PROFIT"]): return None
+            t = {"url":url,"name":url.rstrip("/").split("/")[-1],"scraped_at":now_utc().isoformat()}
             m = re.search(r'PICKS\s*\n?\s*([\d,.\s]+)', text)
             t["picks_count"] = int(pn(m.group(1))) if m else 0
-
             m = re.search(r'YIELD\s*\n?\s*([+\-]?[\d,.]+)', text)
             t["yield_pct"] = pn(m.group(1)) if m else 0
-
             m = re.search(r'PROFIT\s*\n?\s*([+\-]?[\d,.]+)', text)
             t["profit_units"] = pn(m.group(1)) if m else 0
-
             m = re.search(r'Win\s*rate\s*\n?\s*([\d,.]+)\s*%', text, re.I)
             t["win_rate"] = pn(m.group(1)) if m else 0
-
             m = re.search(r'FOLLOWERS\s*\n?\s*([\d,]+)', text)
             t["followers"] = int(pn(m.group(1))) if m else 0
-
             m = re.search(r'Odds\s*avg\s*\n?\s*([\d,.]+)', text, re.I)
             t["odds_avg"] = pn(m.group(1)) if m else 0
-
             m = re.search(r'Stake\s*avg\s*\n?\s*([\d,.]+)', text, re.I)
             t["avg_stake"] = pn(m.group(1)) if m else 5.0
-
             t["verification"] = "free"
             if re.search(r'subscribe|paid\s*service', html, re.I): t["verification"]="paid"
             if re.search(r'copytip|auto.?bet', html, re.I): t["verification"]="paid_copytip"
             if await self.page.query_selector_all("[class*='verified'],[class*='checkmark']"):
                 if t["verification"]=="free": t["verification"]="pro"
-
             m = re.search(r'[Rr]eset\w*\s*[:\(]?\s*(\d+)', text)
             t["resets"] = int(m.group(1)) if m else 0
-
             sports = re.findall(r'(Football|Basketball|Tennis|Ice Hockey|Esports?|Handball|Volleyball|Baseball|Boxing|MMA|Cricket|Darts|Futsal)', text, re.I)
             t["top_sports"] = list(dict.fromkeys(sports))[:5]
             bookies = re.findall(r'(Pinnacle|Bet365|SBOBet|Dafabet|188bet|AsianConnect|Betfair|Unibet|Bwin|1xBet|22bet|Betway|Sportmarket)', text, re.I)
             t["top_bookmakers"] = list(dict.fromkeys(bookies))[:5]
-
             asian = {"Pinnacle","SBOBet","Dafabet","188bet","AsianConnect","Sportmarket"}
             t["bookmaker_profile"] = "asian_dominant" if any(b in asian for b in t["top_bookmakers"][:2]) else "mixed" if any(b in asian for b in t["top_bookmakers"]) else "soft_only"
             t["specialization"] = "mono_specialist" if len(t["top_sports"])<=1 else "focused_multi" if len(t["top_sports"])<=3 else "chaotic_multi"
-            t.update({"recent_form_yield":t["yield_pct"]*0.8,"live_pct":10,"avg_hours_before_match":24,"months_active":12,"profitable_months_12":6,
-                "pinnacle_yield":None,"soft_bookie_yield":None,"live_yield":None,"prematch_yield":None,
-                "top_leagues":[],"analysis_quality":"short_desc","sport_percentages":{},"bookie_percentages":{}})
-
+            t.update({"recent_form_yield":t["yield_pct"]*0.8,"live_pct":10,"avg_hours_before_match":24,"months_active":12,"profitable_months_12":6,"pinnacle_yield":None,"soft_bookie_yield":None,"live_yield":None,"prematch_yield":None,"top_leagues":[],"analysis_quality":"short_desc","sport_percentages":{},"bookie_percentages":{}})
             if t["picks_count"] < MIN_PICKS or t["yield_pct"] < MIN_YIELD: return None
             return t
-        except Exception as e:
-            log(f"    Error: {e}","ERROR"); return None
+        except Exception as e: log(f"    Error: {e}","ERROR"); return None
 
     async def run(self):
         await self.start()
@@ -334,7 +333,6 @@ class BlogabetScraper:
             await self.discover_tipsters()
             if not self.collected_urls:
                 log("Brak typerów — demo","WARN"); self._fallback(); save_json(RAW_FILE, self.tipsters); return
-
             log(f"\nScrapuję {len(self.collected_urls)} profili...")
             for i, url in enumerate(sorted(self.collected_urls)):
                 if len(self.tipsters) >= MAX_TIPSTERS: break
@@ -344,8 +342,7 @@ class BlogabetScraper:
                 else: log(f"    ✗ skip")
                 await asyncio.sleep(2)
             save_json(RAW_FILE, self.tipsters); log(f"\n✓ {len(self.tipsters)} typerów")
-        finally:
-            await self.close()
+        finally: await self.close()
 
     def _fallback(self):
         ts = now_utc().isoformat()
