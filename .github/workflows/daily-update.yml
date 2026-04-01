@@ -1,56 +1,44 @@
-# Pełna automatyzacja: scraping → analiza → dashboard → commit
-# Uruchamia się codziennie o 06:00 UTC lub ręcznie
+# Analiza danych + generacja dashboardu
+# Uruchamia się automatycznie gdy Colab pushnie dane, lub ręcznie
 
-name: "🎯 Daily Blogabet Scrape + Analysis"
+name: "🎯 Analyze + Update Dashboard"
 
 on:
+  push:
+    paths: ['data/tipsters_raw.json']  # auto-run when Colab pushes data
+  workflow_dispatch:                    # manual trigger
   schedule:
-    - cron: '0 6 * * *'
-  workflow_dispatch:
+    - cron: '0 6 * * *'               # daily check at 06:00 UTC
 
 permissions:
   contents: write
 
 jobs:
-  scrape-and-analyze:
+  analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 5
 
     steps:
-      - name: "📥 Checkout repo"
+      - name: "📥 Checkout"
         uses: actions/checkout@v4
 
-      - name: "🐍 Setup Python 3.11"
+      - name: "🐍 Python"
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: "📦 Install dependencies"
+      - name: "📊 Load data + Analyze + Dashboard"
         run: |
-          pip install --upgrade pip
-          pip install playwright beautifulsoup4 lxml
-          playwright install chromium
-          playwright install-deps chromium
+          python scraper.py
+          python analyze.py
 
-      - name: "🔍 Run scraper"
-        env:
-          BLOGABET_USER: ${{ secrets.BLOGABET_USER }}
-          BLOGABET_PASS: ${{ secrets.BLOGABET_PASS }}
-          MIN_PICKS: ${{ vars.MIN_PICKS || '300' }}
-          MIN_YIELD: ${{ vars.MIN_YIELD || '1.0' }}
-          MAX_TIPSTERS: ${{ vars.MAX_TIPSTERS || '150' }}
-        run: python scraper.py
-
-      - name: "📊 Run analysis + generate dashboard"
-        run: python analyze.py
-
-      - name: "📤 Commit and push"
+      - name: "📤 Commit"
         run: |
           git config user.name "Blogabet Bot"
           git config user.email "bot@blogabet-tracker.local"
           git add data/ docs/
           if git diff --staged --quiet; then
-            echo "Brak zmian do commitowania"
+            echo "Brak zmian"
           else
             git commit -m "📊 $(date -u +'%Y-%m-%d') — update"
             git push
