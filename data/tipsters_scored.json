@@ -48,7 +48,7 @@
     "red_flag_count": 0,
     "market_type": "mature",
     "grade": "A",
-    "analyzed_at": "2026-04-01T18:49:50.942144+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034506+00:00"
   },
   {
     "name": "TraderBG",
@@ -98,7 +98,7 @@
     "red_flag_count": 1,
     "market_type": "mature",
     "grade": "A",
-    "analyzed_at": "2026-04-01T18:49:50.942357+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034710+00:00"
   },
   {
     "name": "ValueHunter_CZ",
@@ -149,7 +149,7 @@
     "red_flag_count": 0,
     "market_type": "mature",
     "grade": "A",
-    "analyzed_at": "2026-04-01T18:49:50.942183+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034547+00:00"
   },
   {
     "name": "HT Tipster",
@@ -197,7 +197,7 @@
     "red_flag_count": 0,
     "market_type": "mature",
     "grade": "B",
-    "analyzed_at": "2026-04-01T18:49:50.942433+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034785+00:00"
   },
   {
     "name": "EarlyBird_DE",
@@ -249,7 +249,7 @@
     "red_flag_count": 0,
     "market_type": "early",
     "grade": "B",
-    "analyzed_at": "2026-04-01T18:49:50.942211+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034576+00:00"
   },
   {
     "name": "Mr Henryk",
@@ -307,7 +307,7 @@
     "market_type": "mature",
     "grade": "C",
     "grade_note": "Degradacja: 2 red flags",
-    "analyzed_at": "2026-04-01T18:49:50.942291+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034652+00:00"
   },
   {
     "name": "deadthinker",
@@ -359,7 +359,7 @@
     "market_type": "mature",
     "grade": "C",
     "grade_note": "Degradacja: 2 red flags",
-    "analyzed_at": "2026-04-01T18:49:50.942384+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034738+00:00"
   },
   {
     "name": "VALUEDADDY",
@@ -407,7 +407,7 @@
     "red_flag_count": 0,
     "market_type": "mature",
     "grade": "B",
-    "analyzed_at": "2026-04-01T18:49:50.942410+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034763+00:00"
   },
   {
     "name": "Pacorie1977",
@@ -457,7 +457,7 @@
     "red_flag_count": 1,
     "market_type": "mature",
     "grade": "B",
-    "analyzed_at": "2026-04-01T18:49:50.942263+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034626+00:00"
   },
   {
     "name": "volleyball1",
@@ -505,7 +505,7 @@
     "red_flag_count": 0,
     "market_type": "mature",
     "grade": "C",
-    "analyzed_at": "2026-04-01T18:49:50.942456+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034807+00:00"
   },
   {
     "name": "ChePicks",
@@ -559,7 +559,7 @@
     "red_flag_count": 1,
     "market_type": "mature",
     "grade": "C",
-    "analyzed_at": "2026-04-01T18:49:50.942238+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034602+00:00"
   },
   {
     "name": "ghostface89",
@@ -609,6 +609,6 @@
     "red_flag_count": 1,
     "market_type": "mature",
     "grade": "D",
-    "analyzed_at": "2026-04-01T18:49:50.942319+00:00"
+    "analyzed_at": "2026-04-01T18:51:20.034678+00:00"
   }
 ]
