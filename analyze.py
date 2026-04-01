@@ -234,7 +234,7 @@ footer{{margin-top:24px;padding-top:12px;border-top:1px solid var(--bd);text-ali
 </style></head><body>
 <div class="w">
 <header><div><h1>Blogabet <em>Tipster Tracker</em></h1>
-<p style="font-size:11px;color:var(--t3);margin-top:3px">Automatyczna analiza · Scoring 0–100 · Aktualizacja co 24h</p>
+<p style="font-size:11px;color:var(--t3);margin-top:3px">Automatyczna analiza · Scoring 0–100 · Aktualizacja co 24h · 1# BetEdge external info source</p>
 </div><div class="up">{updated}</div></header>
 
 {demo_banner}
