@@ -594,7 +594,9 @@ def update_history(scored):
     hist = {}
     if os.path.exists(HIST_FILE):
         with open(HIST_FILE) as f:
-            hist = json.load(f)
+            loaded = json.load(f)
+            # Guard: old history.json may have been a list instead of dict
+            hist = loaded if isinstance(loaded, dict) else {}
     for t in scored:
         name = t["name"]
         if name not in hist: hist[name] = []
