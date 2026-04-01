@@ -1,20 +1,6 @@
 #!/usr/bin/env python3
 """
-BLOGABET AUTO-SCRAPER
-═════════════════════
-Pełna automatyzacja: logowanie → odkrywanie typerów → scraping profili
-→ ekstrakcja statystyk → scoring → generacja dashboardu.
-
-Wymaga:
-  pip install playwright beautifulsoup4 lxml
-  playwright install chromium
-
-Zmienne środowiskowe:
-  BLOGABET_USER     — login do Blogabet
-  BLOGABET_PASS     — hasło do Blogabet
-  MIN_PICKS         — min. liczba tipów (domyślnie 300)
-  MIN_YIELD         — min. yield % (domyślnie 1.0)
-  MAX_TIPSTERS      — max typerów do analizy (domyślnie 150)
+BLOGABET AUTO-SCRAPER v2 — naprawiony login + discovery
 """
 
 import asyncio
@@ -22,17 +8,13 @@ import json
 import os
 import re
 import sys
-import traceback
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from typing import Optional, Dict, List, Any
-
+from typing import Optional, Dict, List
 from playwright.async_api import async_playwright, Page, Browser
 
-# ─── KONFIGURACJA ────────────────────────────────────────────────────
 BLOGABET_USER = os.environ.get("BLOGABET_USER", "")
 BLOGABET_PASS = os.environ.get("BLOGABET_PASS", "")
-
 MIN_PICKS = int(os.environ.get("MIN_PICKS", "300"))
 MIN_YIELD = float(os.environ.get("MIN_YIELD", "1.0"))
 MAX_TIPSTERS = int(os.environ.get("MAX_TIPSTERS", "150"))
@@ -42,10 +24,6 @@ ROOT = Path(__file__).parent
 DATA_DIR = ROOT / "data"
 RAW_FILE = DATA_DIR / "tipsters_raw.json"
 
-SORT_OPTIONS = ["yield", "profit", "picks"]
-PICK_TYPES = ["prematch", "inplay"]
-
-# ─── HELPERS ─────────────────────────────────────────────────────────
 def now_utc():
     return datetime.now(timezone.utc)
 
@@ -61,18 +39,16 @@ def load_json(path, default=None):
     return default if default is not None else []
 
 def parse_number(text: str) -> float:
-    """Parse '1,234.56' or '1.234,56' or '+8.4%' → float."""
     if not text:
         return 0.0
-    text = text.strip().replace(" ", "").rstrip("%").lstrip("+")
-    # Handle comma as thousands separator
+    text = text.strip().replace("\xa0", "").replace(" ", "").rstrip("%").lstrip("+")
+    text = re.sub(r'[^\d.,\-]', '', text)
     if "," in text and "." in text:
         if text.index(",") < text.index("."):
             text = text.replace(",", "")
         else:
             text = text.replace(".", "").replace(",", ".")
     elif "," in text:
-        # Ambiguous — try context
         parts = text.split(",")
         if len(parts[-1]) == 3:
             text = text.replace(",", "")
@@ -88,29 +64,27 @@ def log(msg, level="INFO"):
     print(f"[{ts}] [{level}] {msg}")
 
 
-# ─── SCRAPER ─────────────────────────────────────────────────────────
 class BlogabetScraper:
     def __init__(self):
         self.browser: Optional[Browser] = None
         self.page: Optional[Page] = None
         self.collected_urls: set = set()
         self.tipsters: List[Dict] = []
+        self.logged_in = False
 
     async def start(self):
         pw = await async_playwright().start()
         self.browser = await pw.chromium.launch(
             headless=True,
-            args=["--no-sandbox", "--disable-dev-shm-usage"]
+            args=["--no-sandbox", "--disable-dev-shm-usage", "--disable-blink-features=AutomationControlled"]
         )
         context = await self.browser.new_context(
             viewport={"width": 1366, "height": 768},
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                       "AppleWebKit/537.36 (KHTML, like Gecko) "
-                       "Chrome/120.0.0.0 Safari/537.36",
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
             locale="en-US"
         )
         self.page = await context.new_page()
-        self.page.set_default_timeout(30000)
+        self.page.set_default_timeout(20000)
         log("Przeglądarka uruchomiona")
 
     async def close(self):
@@ -118,639 +92,505 @@ class BlogabetScraper:
             await self.browser.close()
             log("Przeglądarka zamknięta")
 
-    # ── LOGIN ────────────────────────────────────────────────────────
+    async def _safe_click(self, selector, timeout=3000):
+        try:
+            el = self.page.locator(selector).first
+            if await el.is_visible(timeout=timeout):
+                await el.click()
+                await asyncio.sleep(0.5)
+                return True
+        except:
+            pass
+        return False
+
+    async def _handle_age_and_cookies(self):
+        """Handle all popups: age verification, cookies, modals."""
+        await asyncio.sleep(1)
+        # Age verification — Blogabet shows this on first visit
+        for sel in [
+            "text=Yes", "text=YES", "text=I am 18",
+            "button:has-text('Yes')", "a:has-text('Yes')",
+            ".age-verify-yes", "#age-yes", "[data-age='yes']",
+            "text=Enter", "text=ENTER",
+            "button:has-text('Enter')", "a:has-text('Enter')",
+        ]:
+            if await self._safe_click(sel):
+                log("  Age verification handled")
+                break
+        await asyncio.sleep(1)
+
+        # Cookie consent
+        for sel in [
+            "text=Accept", "text=Agree", "text=Got it",
+            "button:has-text('Accept')", ".cookie-accept",
+            "#cookie-accept", "text=OK",
+        ]:
+            if await self._safe_click(sel):
+                log("  Cookie consent handled")
+                break
+
+        # Close any modal overlays
+        for sel in [".modal-close", ".close-modal", "button.close", "[aria-label='Close']"]:
+            await self._safe_click(sel, timeout=1000)
+
+    # ── LOGIN ────────────────────────────────────────────────────
     async def login(self) -> bool:
         if not BLOGABET_USER or not BLOGABET_PASS:
-            log("Brak BLOGABET_USER / BLOGABET_PASS — próbuję bez logowania", "WARN")
+            log("Brak BLOGABET_USER / BLOGABET_PASS — tryb bez logowania", "WARN")
             await self.page.goto(BASE_URL, wait_until="domcontentloaded")
+            await self._handle_age_and_cookies()
             return False
 
-        log(f"Logowanie jako: {BLOGABET_USER}")
-        await self.page.goto(f"{BASE_URL}/login", wait_until="domcontentloaded")
+        log(f"Logowanie jako: {BLOGABET_USER[:3]}***")
+
+        # Step 1: Go to main page first to handle age verification
+        await self.page.goto(BASE_URL, wait_until="domcontentloaded")
+        await self._handle_age_and_cookies()
         await asyncio.sleep(2)
 
-        # Handle cookie consent if present
-        try:
-            cookie_btn = self.page.locator("button:has-text('Accept'), button:has-text('Agree'), .cookie-accept, #cookie-accept")
-            if await cookie_btn.count() > 0:
-                await cookie_btn.first.click()
-                await asyncio.sleep(1)
-        except Exception:
-            pass
+        # Step 2: Navigate to login page
+        await self.page.goto(f"{BASE_URL}/login", wait_until="domcontentloaded")
+        await asyncio.sleep(3)
+        await self._handle_age_and_cookies()
 
-        # Age verification if present
-        try:
-            age_btn = self.page.locator("button:has-text('Yes'), a:has-text('Yes'), .age-verify-yes")
-            if await age_btn.count() > 0:
-                await age_btn.first.click()
-                await asyncio.sleep(1)
-        except Exception:
-            pass
+        # Step 3: Debug — log what we see
+        page_url = self.page.url
+        page_title = await self.page.title()
+        log(f"  URL: {page_url}, Title: {page_title}")
 
-        # Fill login form
-        try:
-            await self.page.fill('input[name="username"], input[name="email"], #username, #email', BLOGABET_USER)
-            await self.page.fill('input[name="password"], #password', BLOGABET_PASS)
-            await self.page.click('button[type="submit"], input[type="submit"], .login-btn, .btn-login')
-            await asyncio.sleep(3)
+        # Step 4: Try to find ANY input fields on the page
+        all_inputs = await self.page.query_selector_all("input")
+        log(f"  Znaleziono {len(all_inputs)} inputów na stronie")
+        for inp in all_inputs[:10]:
+            inp_type = await inp.get_attribute("type") or "?"
+            inp_name = await inp.get_attribute("name") or "?"
+            inp_id = await inp.get_attribute("id") or "?"
+            inp_ph = await inp.get_attribute("placeholder") or "?"
+            log(f"    input: type={inp_type}, name={inp_name}, id={inp_id}, placeholder={inp_ph}")
 
-            # Verify login
-            if "/login" not in self.page.url:
-                log("Zalogowano pomyślnie ✓")
-                return True
-            else:
-                log("Login nie powiódł się — kontynuuję bez logowania", "WARN")
-                return False
+        # Step 5: Try multiple strategies to find and fill login form
+        login_success = False
+
+        # Strategy A: Find by input type
+        try:
+            text_inputs = await self.page.query_selector_all("input[type='text'], input[type='email'], input:not([type='hidden']):not([type='password']):not([type='submit']):not([type='checkbox'])")
+            pass_inputs = await self.page.query_selector_all("input[type='password']")
+
+            if text_inputs and pass_inputs:
+                log(f"  Strategia A: {len(text_inputs)} text input(s), {len(pass_inputs)} password input(s)")
+                await text_inputs[0].fill(BLOGABET_USER)
+                await asyncio.sleep(0.5)
+                await pass_inputs[0].fill(BLOGABET_PASS)
+                await asyncio.sleep(0.5)
+
+                # Try to submit
+                submitted = False
+                for sel in [
+                    "button[type='submit']", "input[type='submit']",
+                    "button:has-text('Login')", "button:has-text('Log in')",
+                    "button:has-text('Sign in')", "button:has-text('Submit')",
+                    "a:has-text('Login')", ".btn-login", ".login-btn",
+                    "#login-btn", "form button",
+                ]:
+                    if await self._safe_click(sel, timeout=2000):
+                        submitted = True
+                        log(f"  Submit via: {sel}")
+                        break
+
+                if not submitted:
+                    # Try pressing Enter
+                    await pass_inputs[0].press("Enter")
+                    log("  Submit via Enter key")
+
+                await asyncio.sleep(5)
+
+                # Check if login worked
+                current_url = self.page.url
+                if "/login" not in current_url.lower():
+                    login_success = True
+                    log("  ✓ Login pomyślny (URL changed)")
+                else:
+                    # Check for logged-in indicators
+                    html = await self.page.content()
+                    if any(x in html.lower() for x in ["logout", "log out", "my profile", "my tipsters", "sign out"]):
+                        login_success = True
+                        log("  ✓ Login pomyślny (detected logout link)")
         except Exception as e:
-            log(f"Błąd logowania: {e}", "WARN")
-            return False
+            log(f"  Strategia A failed: {e}", "WARN")
 
-    # ── DISCOVER TIPSTERS ────────────────────────────────────────────
+        # Strategy B: Try using JavaScript to submit
+        if not login_success:
+            try:
+                log("  Strategia B: JavaScript fill...")
+                await self.page.evaluate(f"""
+                    () => {{
+                        const inputs = document.querySelectorAll('input');
+                        for (const inp of inputs) {{
+                            const t = (inp.type || '').toLowerCase();
+                            const n = (inp.name || '').toLowerCase();
+                            const p = (inp.placeholder || '').toLowerCase();
+                            if (t === 'password') {{
+                                inp.value = '{BLOGABET_PASS}';
+                                inp.dispatchEvent(new Event('input', {{bubbles: true}}));
+                            }} else if (t === 'text' || t === 'email' || n.includes('user') || n.includes('email') || n.includes('login') || p.includes('user') || p.includes('email')) {{
+                                inp.value = '{BLOGABET_USER}';
+                                inp.dispatchEvent(new Event('input', {{bubbles: true}}));
+                            }}
+                        }}
+                    }}
+                """)
+                await asyncio.sleep(1)
+
+                # Submit form
+                await self.page.evaluate("""
+                    () => {
+                        const form = document.querySelector('form');
+                        if (form) form.submit();
+                        else {
+                            const btn = document.querySelector("button[type='submit'], input[type='submit'], .btn-login, .login-btn");
+                            if (btn) btn.click();
+                        }
+                    }
+                """)
+                await asyncio.sleep(5)
+
+                current_url = self.page.url
+                if "/login" not in current_url.lower():
+                    login_success = True
+                    log("  ✓ Login pomyślny (Strategy B)")
+            except Exception as e:
+                log(f"  Strategia B failed: {e}", "WARN")
+
+        self.logged_in = login_success
+        if not login_success:
+            log("  ✗ Login nie powiódł się — kontynuuję w trybie publicznym", "WARN")
+
+        return login_success
+
+    # ── DISCOVER TIPSTERS ────────────────────────────────────────
     async def discover_tipsters(self):
-        """
-        Przeszukuje stronę /tipsters z różnymi filtrami i sortowaniami,
-        zbierając URL-e profili typerów do dalszej analizy.
-        """
         log(f"Odkrywanie typerów (min {MIN_PICKS} picks, min {MIN_YIELD}% yield)...")
 
-        # Strategia: odwiedzamy /tipsters z różnymi sortowaniami
-        # i zbieramy URL-e typerów
-        pages_to_visit = [
-            f"{BASE_URL}/tipsters?sort=yield&min_picks={MIN_PICKS}",
-            f"{BASE_URL}/tipsters?sort=profit&min_picks={MIN_PICKS}",
-            f"{BASE_URL}/tipsters?sort=followers&min_picks={MIN_PICKS}",
-            f"{BASE_URL}/tipsters?sort=picks&min_picks={MIN_PICKS}",
-            # Filtrowane wg typu zakładu
-            f"{BASE_URL}/tipsters?sort=yield&min_picks={MIN_PICKS}&pick_type=prematch",
-            f"{BASE_URL}/tipsters?sort=yield&min_picks={MIN_PICKS}&pick_type=inplay",
-            # Paid tipsters
-            f"{BASE_URL}/tipsters?sort=yield&min_picks={MIN_PICKS}&market=paid",
+        # Try the tipsters listing page
+        pages_to_try = [
+            f"{BASE_URL}/tipsters",
+            f"{BASE_URL}/tips",
+            f"{BASE_URL}/feed",
+            f"{BASE_URL}/auto-betting",
         ]
 
-        for url in pages_to_visit:
+        for url in pages_to_try:
             if len(self.collected_urls) >= MAX_TIPSTERS:
                 break
-            await self._scrape_tipster_list_page(url)
+            log(f"  Próbuję: {url}")
+            await self._scrape_listing(url)
 
         log(f"Odkryto {len(self.collected_urls)} unikalnych typerów")
 
-    async def _scrape_tipster_list_page(self, url: str, max_pages: int = 5):
-        """Scrape jednej strony listingu typerów (z paginacją)."""
-        for page_num in range(1, max_pages + 1):
-            if len(self.collected_urls) >= MAX_TIPSTERS:
-                return
+    async def _scrape_listing(self, url: str):
+        try:
+            await self.page.goto(url, wait_until="domcontentloaded")
+            await asyncio.sleep(3)
+            await self._handle_age_and_cookies()
+            await asyncio.sleep(2)
 
-            page_url = f"{url}&page={page_num}" if "?" in url else f"{url}?page={page_num}"
-            try:
-                await self.page.goto(page_url, wait_until="domcontentloaded")
-                await asyncio.sleep(2)
+            # Debug: log page title and URL
+            log(f"    Loaded: {self.page.url}")
 
-                # Handle age verification popup
-                await self._dismiss_popups()
+            # Extract all links from the page
+            links = await self.page.evaluate("""
+                () => {
+                    const results = [];
+                    const anchors = document.querySelectorAll('a[href]');
+                    for (const a of anchors) {
+                        const href = a.getAttribute('href') || '';
+                        const text = (a.textContent || '').trim().substring(0, 50);
+                        results.push({href, text});
+                    }
+                    return results;
+                }
+            """)
 
-                # Extract tipster links
-                links = await self.page.query_selector_all('a[href*="/tipster/"], a.tipster-link, .tipster-row a, .blog-link')
+            log(f"    Znaleziono {len(links)} linków na stronie")
 
-                if not links:
-                    # Fallback: find any links that look like tipster profiles
-                    all_links = await self.page.query_selector_all("a[href]")
-                    for link in all_links:
-                        href = await link.get_attribute("href") or ""
-                        # Blogabet tipster URLs are typically /username or /tipster/username
-                        if re.match(r"^/(tipster/)?[a-zA-Z0-9_-]+$", href.split("?")[0]):
-                            if href not in ("/login", "/register", "/help", "/tips", "/tipsters",
-                                           "/feed", "/betting-guide", "/auto-betting", "/announcement"):
-                                full_url = f"{BASE_URL}{href}" if href.startswith("/") else href
-                                self.collected_urls.add(full_url)
+            # Filter: Blogabet tipster profile URLs
+            # Typical pattern: /tipster/username or just /username
+            excluded = {
+                "/login", "/register", "/help", "/tips", "/tipsters", "/feed",
+                "/betting-guide", "/auto-betting", "/announcement", "/",
+                "/terms", "/privacy", "/about", "/contact", "/cashback",
+                "/seller-admin", "/forgot-password", "/reset-password"
+            }
+
+            for link in links:
+                href = link["href"]
+                if not href:
+                    continue
+
+                # Normalize
+                if href.startswith("http"):
+                    if "blogabet.com" not in href:
+                        continue
+                    path = href.split("blogabet.com")[-1]
                 else:
-                    for link in links:
-                        href = await link.get_attribute("href") or ""
-                        full_url = f"{BASE_URL}{href}" if href.startswith("/") else href
-                        self.collected_urls.add(full_url)
+                    path = href
 
-                found_on_page = len(links) if links else 0
-                log(f"  Strona {page_num}: +{found_on_page} linków (total: {len(self.collected_urls)})")
+                path = path.split("?")[0].split("#")[0].rstrip("/")
 
-                # If no results on page, stop pagination
-                if found_on_page == 0:
+                if not path or path in excluded:
+                    continue
+
+                # Skip paths with multiple segments (not tipster profiles)
+                if path.count("/") > 2:
+                    continue
+
+                # Skip non-tipster paths
+                skip_patterns = [
+                    "/betting-guide", "/announcement", "/cashback", "/auto-betting",
+                    "/help", "/tips", "/tipsters", "/feed", "/login", "/register",
+                    ".png", ".jpg", ".css", ".js", "/page/", "/category/",
+                    "/static/", "/assets/", "/betting-", "/hacks/"
+                ]
+                if any(p in path.lower() for p in skip_patterns):
+                    continue
+
+                # Tipster profile pattern: /username or /tipster/username
+                if re.match(r'^/[a-zA-Z0-9_\-]+$', path) or re.match(r'^/tipster/[a-zA-Z0-9_\-]+$', path):
+                    full_url = f"{BASE_URL}{path}"
+                    self.collected_urls.add(full_url)
+
+            log(f"    → {len(self.collected_urls)} typerów (po filtrze)")
+
+            # Try to paginate — scroll down or click "load more"
+            for _ in range(3):
+                try:
+                    await self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                    await asyncio.sleep(2)
+                    # Try clicking load more / next page
+                    for sel in ["text=Load more", "text=Next", ".load-more", ".pagination .next", "a:has-text('»')"]:
+                        if await self._safe_click(sel, timeout=2000):
+                            await asyncio.sleep(3)
+                            break
+                except:
                     break
 
-            except Exception as e:
-                log(f"  Błąd na {page_url}: {e}", "WARN")
-                break
+            # Re-extract after scrolling
+            links2 = await self.page.evaluate("""
+                () => {
+                    const results = [];
+                    const anchors = document.querySelectorAll('a[href]');
+                    for (const a of anchors) {
+                        const href = a.getAttribute('href') || '';
+                        results.push(href);
+                    }
+                    return results;
+                }
+            """)
 
-    async def _dismiss_popups(self):
-        """Zamyka typowe popupy (cookie consent, age verification)."""
-        selectors = [
-            "button:has-text('Accept')", "button:has-text('Agree')",
-            "button:has-text('Yes')", "a:has-text('Yes')",
-            ".cookie-accept", "#cookie-accept",
-            ".age-verify-yes", ".modal-close",
-            "button:has-text('I am 18')", "button:has-text('Enter')"
-        ]
-        for sel in selectors:
-            try:
-                el = self.page.locator(sel)
-                if await el.count() > 0:
-                    await el.first.click(timeout=2000)
-                    await asyncio.sleep(0.5)
-            except Exception:
-                pass
+            for href in links2:
+                if not href:
+                    continue
+                path = href.split("blogabet.com")[-1] if "blogabet.com" in href else href
+                path = path.split("?")[0].split("#")[0].rstrip("/")
+                if re.match(r'^/[a-zA-Z0-9_\-]+$', path):
+                    skip = any(p in path.lower() for p in ["/betting", "/help", "/tips", "/login", "/feed", "/register", "/announcement", "/auto", "/cashback"])
+                    if not skip and path not in excluded:
+                        self.collected_urls.add(f"{BASE_URL}{path}")
 
-    # ── SCRAPE PROFILE ───────────────────────────────────────────────
+            log(f"    → {len(self.collected_urls)} typerów (po scroll)")
+
+        except Exception as e:
+            log(f"    Błąd: {e}", "WARN")
+
+    # ── SCRAPE PROFILE ───────────────────────────────────────────
     async def scrape_tipster_profile(self, url: str) -> Optional[Dict]:
-        """
-        Pobiera pełne statystyki z profilu typera.
-        Analizuje: yield, picks, win rate, odds avg, sport, bookmaker,
-        verification, resets, followers, stake avg, live %.
-        """
         try:
             await self.page.goto(url, wait_until="domcontentloaded")
             await asyncio.sleep(2)
-            await self._dismiss_popups()
+            await self._handle_age_and_cookies()
 
             html = await self.page.content()
+            text_content = await self.page.evaluate("() => document.body.innerText")
 
             tipster = {
                 "url": url,
+                "name": url.rstrip("/").split("/")[-1],
                 "scraped_at": now_utc().isoformat(),
             }
 
-            # ── Nazwa typera ──
-            tipster["name"] = await self._extract_text(
-                ".blog-name, .tipster-name, h1.name, .profile-name, h1"
-            ) or url.rstrip("/").split("/")[-1]
+            # Extract numbers from page text
+            # Look for patterns like "PICKS\n1,247" or "1,247 picks"
+            picks_match = re.search(r'(?:PICKS|picks|Tips)[:\s]*\n?\s*([\d,.\s]+)', text_content)
+            if picks_match:
+                tipster["picks_count"] = int(parse_number(picks_match.group(1)))
+            else:
+                nums = re.findall(r'([\d,]+)\s*(?:picks|tips)', text_content, re.IGNORECASE)
+                if nums:
+                    tipster["picks_count"] = int(parse_number(nums[0]))
 
-            # ── Główne statystyki (PICKS, PROFIT, YIELD, FOLLOWERS) ──
-            tipster.update(await self._extract_main_stats())
+            # Yield
+            yield_match = re.search(r'(?:YIELD|yield|ROI)[:\s]*\n?\s*([+\-]?[\d,.]+)\s*%?', text_content)
+            if yield_match:
+                tipster["yield_pct"] = parse_number(yield_match.group(1))
+            else:
+                ylds = re.findall(r'([+\-]?\d+\.?\d*)\s*%?\s*(?:yield|roi)', text_content, re.IGNORECASE)
+                if ylds:
+                    tipster["yield_pct"] = parse_number(ylds[0])
 
-            # ── Win Rate, Odds Average, Stake Average ──
-            tipster.update(await self._extract_box_stats())
+            # Profit
+            profit_match = re.search(r'(?:PROFIT|profit|Units)[:\s]*\n?\s*([+\-]?[\d,.]+)', text_content)
+            if profit_match:
+                tipster["profit_units"] = parse_number(profit_match.group(1))
 
-            # ── Verification Status ──
-            tipster["verification"] = await self._detect_verification()
+            # Win rate
+            wr_match = re.search(r'(?:Win\s*rate|WIN\s*RATE|Winrate)[:\s]*\n?\s*([\d,.]+)\s*%', text_content, re.IGNORECASE)
+            if wr_match:
+                tipster["win_rate"] = parse_number(wr_match.group(1))
 
-            # ── Resets ──
-            tipster["resets"] = await self._detect_resets()
+            # Followers
+            fol_match = re.search(r'(?:FOLLOWERS|followers)[:\s]*\n?\s*([\d,]+)', text_content)
+            if fol_match:
+                tipster["followers"] = int(parse_number(fol_match.group(1)))
+            else:
+                tipster["followers"] = 0
 
-            # ── Top Sports & Bookmakers (wykresy) ──
-            tipster.update(await self._extract_charts())
+            # Odds average
+            odds_match = re.search(r'(?:Odds?\s*(?:avg|average)|AVG\s*ODDS)[:\s]*\n?\s*([\d,.]+)', text_content, re.IGNORECASE)
+            if odds_match:
+                tipster["odds_avg"] = parse_number(odds_match.group(1))
+            else:
+                tipster["odds_avg"] = 0
 
-            # ── Specialization (oblicz z top_sports) ──
-            tipster["specialization"] = self._classify_specialization(
-                tipster.get("top_sports", []),
-                tipster.get("sport_percentages", {})
+            # Stake average
+            stake_match = re.search(r'(?:Stake\s*(?:avg|average))[:\s]*\n?\s*([\d,.]+)', text_content, re.IGNORECASE)
+            if stake_match:
+                tipster["avg_stake"] = parse_number(stake_match.group(1))
+            else:
+                tipster["avg_stake"] = 5.0
+
+            # Verification
+            tipster["verification"] = "free"
+            if re.search(r'subscribe|paid\s*service|buy\s*now', html, re.IGNORECASE):
+                tipster["verification"] = "paid"
+            if re.search(r'copytip|auto.?bet', html, re.IGNORECASE):
+                tipster["verification"] = "paid_copytip"
+            verified_el = await self.page.query_selector_all("[class*='verified'], [class*='checkmark'], [class*='pro-badge']")
+            if verified_el and tipster["verification"] == "free":
+                tipster["verification"] = "pro"
+            if re.search(r'un-?verified', html, re.IGNORECASE):
+                tipster["verification"] = "free"
+
+            # Resets
+            reset_match = re.search(r'[Rr]eset[s]?\s*[:\(]?\s*(\d+)', text_content)
+            tipster["resets"] = int(reset_match.group(1)) if reset_match else 0
+            if not reset_match:
+                reset_el = await self.page.query_selector_all("[class*='reset']")
+                if reset_el:
+                    tipster["resets"] = 1
+
+            # Sports
+            sports_found = re.findall(
+                r'(Football|Basketball|Tennis|Ice Hockey|Esports?|Handball|Volleyball|Baseball|Am\.\s*Football|Boxing|MMA|Cricket|Darts|Futsal|Table Tennis)',
+                text_content, re.IGNORECASE
             )
+            tipster["top_sports"] = list(dict.fromkeys([s.strip() for s in sports_found]))[:5]
+            tipster["sport_percentages"] = {}
 
-            # ── Bookmaker Profile ──
-            tipster["bookmaker_profile"] = self._classify_bookmaker(
-                tipster.get("top_bookmakers", []),
-                tipster.get("bookie_percentages", {})
+            # Bookmakers
+            bookies_found = re.findall(
+                r'(Pinnacle|Bet365|SBOBet|Dafabet|188bet|AsianConnect|Betfair|Unibet|William\s*Hill|Ladbrokes|Bwin|Marathonbet|1xBet|22bet|Betway|Sportmarket)',
+                text_content, re.IGNORECASE
             )
+            tipster["top_bookmakers"] = list(dict.fromkeys([b.strip() for b in bookies_found]))[:5]
+            tipster["bookie_percentages"] = {}
 
-            # ── Followers count ──
-            if not tipster.get("followers"):
-                tipster["followers"] = await self._extract_followers()
+            # Classify
+            asian = {"Pinnacle", "SBOBet", "Dafabet", "188bet", "AsianConnect", "Sportmarket"}
+            if any(b in asian for b in tipster["top_bookmakers"][:2]):
+                tipster["bookmaker_profile"] = "asian_dominant"
+            elif any(b in asian for b in tipster["top_bookmakers"]):
+                tipster["bookmaker_profile"] = "mixed"
+            else:
+                tipster["bookmaker_profile"] = "soft_only"
 
-            # ── Przejdź do Statistics page ──
-            tipster.update(await self._scrape_statistics_page(url))
+            if len(tipster["top_sports"]) <= 1:
+                tipster["specialization"] = "mono_specialist"
+            elif len(tipster["top_sports"]) <= 3:
+                tipster["specialization"] = "focused_multi"
+            else:
+                tipster["specialization"] = "chaotic_multi"
 
-            # ── Filtruj: min picks + min yield ──
-            if tipster.get("picks_count", 0) < MIN_PICKS:
+            # Defaults for fields we can't easily scrape
+            tipster.setdefault("picks_count", 0)
+            tipster.setdefault("yield_pct", 0)
+            tipster.setdefault("win_rate", 0)
+            tipster.setdefault("recent_form_yield", tipster.get("yield_pct", 0) * 0.8)
+            tipster.setdefault("live_pct", 10)
+            tipster.setdefault("avg_hours_before_match", 24)
+            tipster.setdefault("months_active", 12)
+            tipster.setdefault("profitable_months_12", 6)
+            tipster.setdefault("pinnacle_yield", None)
+            tipster.setdefault("soft_bookie_yield", None)
+            tipster.setdefault("live_yield", None)
+            tipster.setdefault("prematch_yield", None)
+            tipster.setdefault("top_leagues", [])
+            tipster.setdefault("analysis_quality", "short_desc")
+
+            # Filter
+            if tipster["picks_count"] < MIN_PICKS:
                 return None
-            if tipster.get("yield_pct", 0) < MIN_YIELD:
+            if tipster["yield_pct"] < MIN_YIELD:
                 return None
-
-            # ── Analysis quality (heurystyka) ──
-            tipster["analysis_quality"] = await self._assess_analysis_quality()
 
             return tipster
 
         except Exception as e:
-            log(f"  Błąd scrapingu {url}: {e}", "ERROR")
+            log(f"    Błąd profilu {url}: {e}", "ERROR")
             return None
 
-    async def _extract_text(self, selector: str) -> Optional[str]:
-        """Bezpiecznie wyciąga tekst z pierwszego pasującego elementu."""
-        try:
-            el = self.page.locator(selector).first
-            if await el.count() > 0:
-                text = (await el.inner_text()).strip()
-                return text if text else None
-        except Exception:
-            pass
-        return None
-
-    async def _extract_main_stats(self) -> Dict:
-        """Wyciąga PICKS, PROFIT, YIELD, FOLLOWERS z boxów na profilu."""
-        stats = {"picks_count": 0, "profit_units": 0, "yield_pct": 0, "followers": 0}
-
-        # Strategia: szukaj elementów z liczbami obok etykiet
-        # Blogabet używa różnych struktur, więc szukamy elastycznie
-        page_text = await self.page.content()
-
-        # Picks
-        picks_match = re.search(
-            r'(?:picks|tips)[:\s]*</?\w[^>]*>\s*([\d,.\s]+)',
-            page_text, re.IGNORECASE
-        )
-        if picks_match:
-            stats["picks_count"] = int(parse_number(picks_match.group(1)))
-
-        # Profit
-        profit_match = re.search(
-            r'(?:profit|units)[:\s]*</?\w[^>]*>\s*([+\-]?[\d,.\s]+)',
-            page_text, re.IGNORECASE
-        )
-        if profit_match:
-            stats["profit_units"] = parse_number(profit_match.group(1))
-
-        # Yield
-        yield_match = re.search(
-            r'(?:yield|roi)[:\s]*</?\w[^>]*>\s*([+\-]?[\d,.\s]+)\s*%',
-            page_text, re.IGNORECASE
-        )
-        if yield_match:
-            stats["yield_pct"] = parse_number(yield_match.group(1))
-
-        # Followers
-        followers_match = re.search(
-            r'(?:followers|follow)[:\s]*</?\w[^>]*>\s*([\d,.\s]+)',
-            page_text, re.IGNORECASE
-        )
-        if followers_match:
-            stats["followers"] = int(parse_number(followers_match.group(1)))
-
-        # Fallback: szukaj w elementach z klasami
-        try:
-            stat_elements = await self.page.query_selector_all(
-                ".stat-value, .blog-stat-value, .stats-number, [class*='stat'] [class*='value']"
-            )
-            values = []
-            for el in stat_elements:
-                text = (await el.inner_text()).strip()
-                if text:
-                    values.append(text)
-
-            # Typowy układ: [picks_count, profit, yield%, followers]
-            if len(values) >= 3 and stats["picks_count"] == 0:
-                stats["picks_count"] = int(parse_number(values[0]))
-                stats["profit_units"] = parse_number(values[1])
-                stats["yield_pct"] = parse_number(values[2].rstrip("%"))
-            if len(values) >= 4 and stats["followers"] == 0:
-                stats["followers"] = int(parse_number(values[3]))
-        except Exception:
-            pass
-
-        return stats
-
-    async def _extract_box_stats(self) -> Dict:
-        """Win rate, odds average, stake average z boxów statystyk."""
-        stats = {"win_rate": 0, "odds_avg": 0, "avg_stake": 0}
-        page_text = await self.page.content()
-
-        wr_match = re.search(r'win\s*rate[:\s]*</?\w[^>]*>\s*([\d,.]+)\s*%', page_text, re.IGNORECASE)
-        if wr_match:
-            stats["win_rate"] = parse_number(wr_match.group(1))
-
-        odds_match = re.search(r'odds?\s*(?:avg|average)[:\s]*</?\w[^>]*>\s*([\d,.]+)', page_text, re.IGNORECASE)
-        if odds_match:
-            stats["odds_avg"] = parse_number(odds_match.group(1))
-
-        stake_match = re.search(r'stake\s*(?:avg|average)[:\s]*</?\w[^>]*>\s*([\d,.]+)', page_text, re.IGNORECASE)
-        if stake_match:
-            stats["avg_stake"] = parse_number(stake_match.group(1))
-
-        return stats
-
-    async def _detect_verification(self) -> str:
-        """Wykryj status weryfikacji typera."""
-        html = await self.page.content()
-
-        # Paid tipster in Market
-        if re.search(r'(paid\s*service|subscribe|buy|market)', html, re.IGNORECASE):
-            # Check if copytip is available
-            if re.search(r'(copytip|auto-?bet|copy\s*strategy)', html, re.IGNORECASE):
-                return "paid_copytip"
-            return "paid"
-
-        # PRO checkmark
-        try:
-            verified = await self.page.query_selector_all(
-                ".verified-icon, .checkmark, .pro-badge, [class*='verified'], [class*='pro-badge']"
-            )
-            if verified:
-                return "pro"
-        except Exception:
-            pass
-
-        # Green checkmark via title/tooltip
-        if re.search(r'verified\s*(since|by|tipster)', html, re.IGNORECASE):
-            return "pro"
-
-        # Unverified badge
-        if re.search(r'un-?verified', html, re.IGNORECASE):
-            return "free"
-
-        return "free"
-
-    async def _detect_resets(self) -> int:
-        """Wykryj liczbę resetów."""
-        html = await self.page.content()
-        reset_match = re.search(r'reset[s]?\s*[:\(]?\s*(\d+)', html, re.IGNORECASE)
-        if reset_match:
-            return int(reset_match.group(1))
-
-        # Check for reset icon
-        try:
-            reset_icons = await self.page.query_selector_all(
-                ".reset-icon, [class*='reset'], [title*='reset']"
-            )
-            if reset_icons:
-                for icon in reset_icons:
-                    title = await icon.get_attribute("title") or ""
-                    nums = re.findall(r'\d+', title)
-                    if nums:
-                        return int(nums[0])
-                return 1  # Has reset icon but can't determine count
-        except Exception:
-            pass
-        return 0
-
-    async def _extract_charts(self) -> Dict:
-        """Wyciąga dane z wykresów Top Sports i Top Bookmakers."""
-        result = {
-            "top_sports": [],
-            "sport_percentages": {},
-            "top_bookmakers": [],
-            "bookie_percentages": {}
-        }
-
-        html = await self.page.content()
-
-        # Sport extraction (from chart labels, text, or structured data)
-        sport_pattern = re.findall(
-            r'(Football|Basketball|Tennis|Ice Hockey|Esports?|Handball|Volleyball|'
-            r'Baseball|Am\.\s*Football|Boxing|MMA|Cricket|Darts|Futsal|Rugby|'
-            r'Table Tennis|Badminton|Snooker|Golf|Motorsport)'
-            r'[:\s]*(\d+(?:\.\d+)?)\s*%?',
-            html, re.IGNORECASE
-        )
-        for sport, pct in sport_pattern:
-            sport = sport.strip()
-            if sport not in result["top_sports"]:
-                result["top_sports"].append(sport)
-                result["sport_percentages"][sport] = parse_number(pct)
-
-        # Bookmaker extraction
-        bookie_pattern = re.findall(
-            r'(Pinnacle|Bet365|SBOBet|Dafabet|188bet|AsianConnect|'
-            r'Betfair|Unibet|William\s*Hill|Ladbrokes|Bwin|Marathonbet|'
-            r'1xBet|22bet|Betway|BetVictor|Betsson|Sportmarket|10Bet|Paddy\s*Power)'
-            r'[:\s]*(\d+(?:\.\d+)?)\s*%?',
-            html, re.IGNORECASE
-        )
-        for bookie, pct in bookie_pattern:
-            bookie = bookie.strip()
-            if bookie not in result["top_bookmakers"]:
-                result["top_bookmakers"].append(bookie)
-                result["bookie_percentages"][bookie] = parse_number(pct)
-
-        return result
-
-    async def _extract_followers(self) -> int:
-        html = await self.page.content()
-        m = re.search(r'(\d[\d,]*)\s*followers?', html, re.IGNORECASE)
-        return int(parse_number(m.group(1))) if m else 0
-
-    def _classify_specialization(self, sports: list, pcts: dict) -> str:
-        if not sports:
-            return "chaotic_multi"
-        if len(sports) == 1:
-            return "mono_specialist"
-        top_pct = max(pcts.values()) if pcts else 0
-        if top_pct >= 75:
-            return "mono_specialist"
-        elif top_pct >= 50 or len(sports) <= 3:
-            return "focused_multi"
-        return "chaotic_multi"
-
-    def _classify_bookmaker(self, bookies: list, pcts: dict) -> str:
-        asian = {"Pinnacle", "SBOBet", "Dafabet", "188bet", "AsianConnect", "Sportmarket"}
-        asian_pct = sum(pcts.get(b, 0) for b in bookies if b in asian)
-        total_pct = sum(pcts.values()) if pcts else 0
-
-        if total_pct > 0 and (asian_pct / total_pct) >= 0.7:
-            return "asian_dominant"
-        elif total_pct > 0 and (asian_pct / total_pct) >= 0.3:
-            return "mixed"
-        # Check by name presence
-        if any(b in asian for b in bookies[:2]):
-            return "asian_dominant"
-        return "soft_only"
-
-    # ── STATISTICS PAGE ──────────────────────────────────────────────
-    async def _scrape_statistics_page(self, profile_url: str) -> Dict:
-        """Przejdź do podstrony Statistics i wyciągnij szczegóły."""
-        result = {
-            "recent_form_yield": 0,
-            "live_pct": 0,
-            "prematch_yield": None,
-            "live_yield": None,
-            "pinnacle_yield": None,
-            "soft_bookie_yield": None,
-            "avg_hours_before_match": 24,
-            "months_active": 0,
-            "profitable_months_12": 0,
-            "top_leagues": [],
-        }
-
-        try:
-            # Try to find and click Statistics tab/link
-            stats_link = self.page.locator("a:has-text('Statistics'), a:has-text('Stats'), a[href*='stat']").first
-            if await stats_link.count() > 0:
-                await stats_link.click()
-                await asyncio.sleep(2)
-
-            html = await self.page.content()
-
-            # Recent form: look for monthly breakdown
-            # Try to find yield values in recent months
-            month_yields = re.findall(
-                r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s*\d{2,4}[:\s]*([+\-]?[\d,.]+)\s*%',
-                html, re.IGNORECASE
-            )
-            if month_yields:
-                recent = [parse_number(y) for y in month_yields[-3:]]
-                result["recent_form_yield"] = sum(recent) / len(recent) if recent else 0
-                positive_months = sum(1 for y in month_yields[-12:] if parse_number(y) > 0)
-                result["profitable_months_12"] = positive_months
-                result["months_active"] = len(month_yields)
-
-            # Live percentage
-            live_match = re.search(r'(?:in-?play|live)[:\s]*(\d+(?:\.\d+)?)\s*%', html, re.IGNORECASE)
-            if live_match:
-                result["live_pct"] = parse_number(live_match.group(1))
-
-            # League extraction
-            league_pattern = re.findall(
-                r'(Eng\.\s*Premier|Spa\.\s*Primera|Ger\.\s*Bundesliga|Fra\.\s*Ligue|'
-                r'Ita\.\s*Serie\s*[ABC]|NBA|NHL|Euroleague|Champions\s*L|'
-                r'Eng\.\s*Championship|Spa\.\s*Segunda|Ger\.\s*Bundesliga\s*II|'
-                r'MLS|KHL|SHL|WC\s*Qual|AFC|UEFA)',
-                html, re.IGNORECASE
-            )
-            result["top_leagues"] = list(set(l.strip() for l in league_pattern))[:5]
-
-        except Exception as e:
-            log(f"    Stats page error: {e}", "WARN")
-
-        return result
-
-    async def _assess_analysis_quality(self) -> str:
-        """Oceń jakość analiz na podstawie ostatnich tipów."""
-        try:
-            # Look at pick descriptions
-            picks_text = await self.page.query_selector_all(
-                ".pick-analysis, .pick-text, .pick-description, .tip-text, "
-                ".analysis, [class*='analysis'], [class*='description']"
-            )
-            if not picks_text:
-                return "none"
-
-            total_len = 0
-            count = 0
-            for el in picks_text[:10]:
-                text = (await el.inner_text()).strip()
-                total_len += len(text)
-                count += 1
-
-            if count == 0:
-                return "none"
-            avg_len = total_len / count
-            if avg_len > 200:
-                return "detailed_value"
-            elif avg_len > 50:
-                return "short_desc"
-            return "none"
-        except Exception:
-            return "none"
-
-    # ── MAIN FLOW ────────────────────────────────────────────────────
+    # ── MAIN FLOW ────────────────────────────────────────────────
     async def run(self):
-        """Pełny pipeline: login → discover → scrape → save."""
         await self.start()
-
         try:
-            # 1. Login
             await self.login()
-
-            # 2. Discover tipster URLs
             await self.discover_tipsters()
 
             if not self.collected_urls:
-                log("Nie znaleziono żadnych typerów — generuję dane przykładowe", "WARN")
+                log("Brak typerów — generuję dane demo", "WARN")
                 self._generate_fallback_data()
                 save_json(RAW_FILE, self.tipsters)
                 return self.tipsters
 
-            # 3. Scrape each tipster profile
             log(f"\nScrapuję profile {len(self.collected_urls)} typerów...")
             for i, url in enumerate(sorted(self.collected_urls)):
                 if len(self.tipsters) >= MAX_TIPSTERS:
                     break
-
-                log(f"  [{i+1}/{len(self.collected_urls)}] {url}")
+                log(f"  [{i+1}/{len(self.collected_urls)}] {url.split('/')[-1]}")
                 tipster = await self.scrape_tipster_profile(url)
-
                 if tipster:
                     self.tipsters.append(tipster)
-                    log(f"    ✓ {tipster['name']}: yield={tipster.get('yield_pct',0):.1f}%, "
-                        f"picks={tipster.get('picks_count',0)}, "
-                        f"verification={tipster.get('verification','?')}")
+                    log(f"    ✓ yield={tipster.get('yield_pct',0):+.1f}%, picks={tipster.get('picks_count',0)}")
                 else:
-                    log(f"    ✗ Pominięty (nie spełnia kryteriów)")
-
-                # Rate limiting: 2-3 sec between requests
+                    log(f"    ✗ Pominięty")
                 await asyncio.sleep(2.5)
 
-            # 4. Save
             save_json(RAW_FILE, self.tipsters)
             log(f"\n✓ Zapisano {len(self.tipsters)} typerów → {RAW_FILE}")
             return self.tipsters
-
         finally:
             await self.close()
 
     def _generate_fallback_data(self):
-        """Dane fallback gdy scraping nie działa (np. brak loginu)."""
-        log("Generuję dane przykładowe jako fallback...")
+        log("Generuję dane demo jako fallback...")
         self.tipsters = [
-            {
-                "name": "DEMO_SharpEdge",
-                "url": f"{BASE_URL}/demo",
-                "yield_pct": 8.4, "picks_count": 1247,
-                "verification": "paid", "bookmaker_profile": "asian_dominant",
-                "recent_form_yield": 6.2, "specialization": "mono_specialist",
-                "resets": 0, "analysis_quality": "detailed_value",
-                "top_sports": ["Football"], "top_leagues": ["Eng. Premier"],
-                "avg_stake": 5.2, "odds_avg": 1.95, "win_rate": 54.2,
-                "live_pct": 10, "avg_hours_before_match": 18,
-                "followers": 342, "months_active": 24,
-                "profitable_months_12": 8, "pinnacle_yield": 7.8,
-                "soft_bookie_yield": 9.1, "live_yield": 3.2,
-                "prematch_yield": 9.0, "sport_percentages": {"Football": 92},
-                "bookie_percentages": {"Pinnacle": 85}, "top_bookmakers": ["Pinnacle"],
-                "scraped_at": now_utc().isoformat(),
-                "is_demo": True
-            },
-            {
-                "name": "DEMO_IceHockey_Pro",
-                "url": f"{BASE_URL}/demo2",
-                "yield_pct": 7.1, "picks_count": 2103,
-                "verification": "paid_copytip", "bookmaker_profile": "asian_dominant",
-                "recent_form_yield": 5.8, "specialization": "mono_specialist",
-                "resets": 0, "analysis_quality": "detailed_value",
-                "top_sports": ["Ice Hockey"], "top_leagues": ["NHL", "KHL"],
-                "avg_stake": 3.0, "odds_avg": 1.88, "win_rate": 56.1,
-                "live_pct": 8, "avg_hours_before_match": 8,
-                "followers": 512, "months_active": 36,
-                "profitable_months_12": 9, "pinnacle_yield": 6.8,
-                "soft_bookie_yield": 7.5, "live_yield": 5.0,
-                "prematch_yield": 7.2, "sport_percentages": {"Ice Hockey": 95},
-                "bookie_percentages": {"Pinnacle": 80, "Bet365": 15},
-                "top_bookmakers": ["Pinnacle", "Bet365"],
-                "scraped_at": now_utc().isoformat(),
-                "is_demo": True
-            },
-            {
-                "name": "DEMO_LiveKing_FRAUD",
-                "url": f"{BASE_URL}/demo3",
-                "yield_pct": 22.4, "picks_count": 456,
-                "verification": "free", "bookmaker_profile": "soft_only",
-                "recent_form_yield": 18.0, "specialization": "chaotic_multi",
-                "resets": 3, "analysis_quality": "none",
-                "top_sports": ["Football", "Tennis", "Basketball"],
-                "top_leagues": ["Various"], "avg_stake": 8.5,
-                "odds_avg": 2.80, "win_rate": 42.0, "live_pct": 65,
-                "avg_hours_before_match": 0, "followers": 28,
-                "months_active": 6, "profitable_months_12": 4,
-                "pinnacle_yield": -3.5, "soft_bookie_yield": 25.0,
-                "live_yield": 30.0, "prematch_yield": 4.0,
-                "sport_percentages": {"Football": 40, "Tennis": 30, "Basketball": 30},
-                "bookie_percentages": {"Bet365": 70, "Unibet": 30},
-                "top_bookmakers": ["Bet365", "Unibet"],
-                "scraped_at": now_utc().isoformat(),
-                "is_demo": True
-            }
+            {"name":"DEMO_SharpEdge","url":f"{BASE_URL}/demo","yield_pct":8.4,"picks_count":1247,"verification":"paid","bookmaker_profile":"asian_dominant","recent_form_yield":6.2,"specialization":"mono_specialist","resets":0,"analysis_quality":"detailed_value","top_sports":["Football"],"top_leagues":["Eng. Premier"],"avg_stake":5.2,"odds_avg":1.95,"win_rate":54.2,"live_pct":10,"avg_hours_before_match":18,"followers":342,"months_active":24,"profitable_months_12":8,"pinnacle_yield":7.8,"soft_bookie_yield":9.1,"live_yield":3.2,"prematch_yield":9.0,"sport_percentages":{},"bookie_percentages":{},"top_bookmakers":["Pinnacle"],"scraped_at":now_utc().isoformat(),"is_demo":True},
+            {"name":"DEMO_IceHockey_Pro","url":f"{BASE_URL}/demo2","yield_pct":7.1,"picks_count":2103,"verification":"paid_copytip","bookmaker_profile":"asian_dominant","recent_form_yield":5.8,"specialization":"mono_specialist","resets":0,"analysis_quality":"detailed_value","top_sports":["Ice Hockey"],"top_leagues":["NHL","KHL"],"avg_stake":3.0,"odds_avg":1.88,"win_rate":56.1,"live_pct":8,"avg_hours_before_match":8,"followers":512,"months_active":36,"profitable_months_12":9,"pinnacle_yield":6.8,"soft_bookie_yield":7.5,"live_yield":5.0,"prematch_yield":7.2,"sport_percentages":{},"bookie_percentages":{},"top_bookmakers":["Pinnacle","Bet365"],"scraped_at":now_utc().isoformat(),"is_demo":True},
+            {"name":"DEMO_LiveKing_FRAUD","url":f"{BASE_URL}/demo3","yield_pct":22.4,"picks_count":456,"verification":"free","bookmaker_profile":"soft_only","recent_form_yield":18.0,"specialization":"chaotic_multi","resets":3,"analysis_quality":"none","top_sports":["Football","Tennis","Basketball"],"top_leagues":["Various"],"avg_stake":8.5,"odds_avg":2.80,"win_rate":42.0,"live_pct":65,"avg_hours_before_match":0,"followers":28,"months_active":6,"profitable_months_12":4,"pinnacle_yield":-3.5,"soft_bookie_yield":25.0,"live_yield":30.0,"prematch_yield":4.0,"sport_percentages":{},"bookie_percentages":{},"top_bookmakers":["Bet365","Unibet"],"scraped_at":now_utc().isoformat(),"is_demo":True},
         ]
 
-
-# ─── ENTRY POINT ─────────────────────────────────────────────────────
 async def main():
     scraper = BlogabetScraper()
     await scraper.run()
-
 
 if __name__ == "__main__":
     asyncio.run(main())
