@@ -1,0 +1,189 @@
+[
+  {
+    "name": "DEMO_SharpEdge",
+    "url": "https://blogabet.com/demo",
+    "yield_pct": 8.4,
+    "picks_count": 1247,
+    "verification": "paid",
+    "bookmaker_profile": "asian_dominant",
+    "recent_form_yield": 6.2,
+    "specialization": "mono_specialist",
+    "resets": 0,
+    "analysis_quality": "detailed_value",
+    "top_sports": [
+      "Football"
+    ],
+    "top_leagues": [
+      "Eng. Premier"
+    ],
+    "avg_stake": 5.2,
+    "odds_avg": 1.95,
+    "win_rate": 54.2,
+    "live_pct": 10,
+    "avg_hours_before_match": 18,
+    "followers": 342,
+    "months_active": 24,
+    "profitable_months_12": 8,
+    "pinnacle_yield": 7.8,
+    "soft_bookie_yield": 9.1,
+    "live_yield": 3.2,
+    "prematch_yield": 9.0,
+    "sport_percentages": {
+      "Football": 92
+    },
+    "bookie_percentages": {
+      "Pinnacle": 85
+    },
+    "top_bookmakers": [
+      "Pinnacle"
+    ],
+    "scraped_at": "2026-04-01T11:43:54.417789+00:00",
+    "is_demo": true,
+    "score": 93,
+    "score_breakdown": {
+      "yield": 20,
+      "picks": 15,
+      "verification": 13,
+      "bookmaker": 10,
+      "form": 10,
+      "specialization": 10,
+      "resets": 5,
+      "analysis": 10
+    },
+    "red_flags": [],
+    "red_flag_count": 0,
+    "market_type": "mature",
+    "grade": "A",
+    "analyzed_at": "2026-04-01T11:43:54.535626+00:00"
+  },
+  {
+    "name": "DEMO_IceHockey_Pro",
+    "url": "https://blogabet.com/demo2",
+    "yield_pct": 7.1,
+    "picks_count": 2103,
+    "verification": "paid_copytip",
+    "bookmaker_profile": "asian_dominant",
+    "recent_form_yield": 5.8,
+    "specialization": "mono_specialist",
+    "resets": 0,
+    "analysis_quality": "detailed_value",
+    "top_sports": [
+      "Ice Hockey"
+    ],
+    "top_leagues": [
+      "NHL",
+      "KHL"
+    ],
+    "avg_stake": 3.0,
+    "odds_avg": 1.88,
+    "win_rate": 56.1,
+    "live_pct": 8,
+    "avg_hours_before_match": 8,
+    "followers": 512,
+    "months_active": 36,
+    "profitable_months_12": 9,
+    "pinnacle_yield": 6.8,
+    "soft_bookie_yield": 7.5,
+    "live_yield": 5.0,
+    "prematch_yield": 7.2,
+    "sport_percentages": {
+      "Ice Hockey": 95
+    },
+    "bookie_percentages": {
+      "Pinnacle": 80,
+      "Bet365": 15
+    },
+    "top_bookmakers": [
+      "Pinnacle",
+      "Bet365"
+    ],
+    "scraped_at": "2026-04-01T11:43:54.417807+00:00",
+    "is_demo": true,
+    "score": 86,
+    "score_breakdown": {
+      "yield": 15,
+      "picks": 15,
+      "verification": 15,
+      "bookmaker": 10,
+      "form": 6,
+      "specialization": 10,
+      "resets": 5,
+      "analysis": 10
+    },
+    "red_flags": [],
+    "red_flag_count": 0,
+    "market_type": "mature",
+    "grade": "A",
+    "analyzed_at": "2026-04-01T11:43:54.535747+00:00"
+  },
+  {
+    "name": "DEMO_LiveKing_FRAUD",
+    "url": "https://blogabet.com/demo3",
+    "yield_pct": 22.4,
+    "picks_count": 456,
+    "verification": "free",
+    "bookmaker_profile": "soft_only",
+    "recent_form_yield": 18.0,
+    "specialization": "chaotic_multi",
+    "resets": 3,
+    "analysis_quality": "none",
+    "top_sports": [
+      "Football",
+      "Tennis",
+      "Basketball"
+    ],
+    "top_leagues": [
+      "Various"
+    ],
+    "avg_stake": 8.5,
+    "odds_avg": 2.8,
+    "win_rate": 42.0,
+    "live_pct": 65,
+    "avg_hours_before_match": 0,
+    "followers": 28,
+    "months_active": 6,
+    "profitable_months_12": 4,
+    "pinnacle_yield": -3.5,
+    "soft_bookie_yield": 25.0,
+    "live_yield": 30.0,
+    "prematch_yield": 4.0,
+    "sport_percentages": {
+      "Football": 40,
+      "Tennis": 30,
+      "Basketball": 30
+    },
+    "bookie_percentages": {
+      "Bet365": 70,
+      "Unibet": 30
+    },
+    "top_bookmakers": [
+      "Bet365",
+      "Unibet"
+    ],
+    "scraped_at": "2026-04-01T11:43:54.417817+00:00",
+    "is_demo": true,
+    "score": 42,
+    "score_breakdown": {
+      "yield": 25,
+      "picks": 5,
+      "verification": 0,
+      "bookmaker": 0,
+      "form": 10,
+      "specialization": 2,
+      "resets": 0,
+      "analysis": 0
+    },
+    "red_flags": [
+      "RESET_MULTIPLE",
+      "UNVERIFIED",
+      "LIVE_UNVERIFIED",
+      "YIELD_PUMP",
+      "SOFT_ONLY_EDGE"
+    ],
+    "red_flag_count": 5,
+    "market_type": "live",
+    "grade": "F",
+    "grade_note": "Auto-F: ≥3 red flags",
+    "analyzed_at": "2026-04-01T11:43:54.535784+00:00"
+  }
+]

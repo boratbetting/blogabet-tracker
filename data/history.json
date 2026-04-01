@@ -1,0 +1,27 @@
+[
+  {
+    "date": "2026-04-01",
+    "count": 3,
+    "avg_score": 73.7,
+    "top5": [
+      {
+        "name": "DEMO_SharpEdge",
+        "score": 93,
+        "yield": 8.4,
+        "grade": "A"
+      },
+      {
+        "name": "DEMO_IceHockey_Pro",
+        "score": 86,
+        "yield": 7.1,
+        "grade": "A"
+      },
+      {
+        "name": "DEMO_LiveKing_FRAUD",
+        "score": 42,
+        "yield": 22.4,
+        "grade": "F"
+      }
+    ]
+  }
+]
