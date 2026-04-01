@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-04-01",
-    "count": 3,
-    "avg_score": 82.7,
+    "count": 12,
+    "avg_score": 72.0,
     "top5": [
       {
         "name": "SharpEdge_PL",
@@ -11,9 +11,21 @@
         "grade": "A"
       },
       {
+        "name": "TraderBG",
+        "score": 89,
+        "yield": 23,
+        "grade": "A"
+      },
+      {
         "name": "ValueHunter_CZ",
-        "score": 79,
+        "score": 85,
         "yield": 11.2,
+        "grade": "A"
+      },
+      {
+        "name": "HT Tipster",
+        "score": 77,
+        "yield": 27,
         "grade": "B"
       },
       {
