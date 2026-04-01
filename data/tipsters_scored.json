@@ -34,21 +34,21 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.833191+00:00",
     "score": 93,
-    "score_breakdown": {
-      "yield": 20,
-      "picks": 15,
-      "verification": 13,
-      "bookmaker": 10,
-      "form": 10,
-      "specialization": 10,
-      "resets": 5,
-      "analysis": 10
-    },
-    "red_flags": [],
-    "red_flag_count": 0,
-    "market_type": "mature",
     "grade": "A",
-    "analyzed_at": "2026-04-01T18:51:20.034506+00:00"
+    "red_flags": [],
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "STRONG FOLLOW",
+    "recommendation_text": "Grade A — statistically robust edge. 1247 picks at 8.4% yield is highly unlikely to be random variance. Paid verification confirms odds were realistically available. Asian/Pinnacle focus signals genuine market inefficiency, not soft-book farming.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.085947+00:00"
   },
   {
     "name": "TraderBG",
@@ -82,23 +82,23 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.835215+00:00",
     "score": 89,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 15,
-      "verification": 13,
-      "bookmaker": 5,
-      "form": 10,
-      "specialization": 6,
-      "resets": 5,
-      "analysis": 10
-    },
+    "grade": "A",
     "red_flags": [
       "EXTREME_YIELD"
     ],
-    "red_flag_count": 1,
-    "market_type": "mature",
-    "grade": "A",
-    "analyzed_at": "2026-04-01T18:51:20.034710+00:00"
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "STRONG FOLLOW",
+    "recommendation_text": "Grade A — statistically robust edge. 1770 picks at 23% yield is highly unlikely to be random variance. Paid verification confirms odds were realistically available.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086082+00:00"
   },
   {
     "name": "ValueHunter_CZ",
@@ -135,21 +135,21 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.834272+00:00",
     "score": 85,
-    "score_breakdown": {
-      "yield": 20,
-      "picks": 10,
-      "verification": 10,
-      "bookmaker": 10,
-      "form": 10,
-      "specialization": 10,
-      "resets": 5,
-      "analysis": 10
-    },
-    "red_flags": [],
-    "red_flag_count": 0,
-    "market_type": "mature",
     "grade": "A",
-    "analyzed_at": "2026-04-01T18:51:20.034547+00:00"
+    "red_flags": [],
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "STRONG FOLLOW",
+    "recommendation_text": "Grade A — statistically robust edge. 834 picks at 11.2% yield is highly unlikely to be random variance. Asian/Pinnacle focus signals genuine market inefficiency, not soft-book farming.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Basketball",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.085983+00:00"
   },
   {
     "name": "HT Tipster",
@@ -183,21 +183,21 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.835433+00:00",
     "score": 77,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 5,
-      "verification": 13,
-      "bookmaker": 5,
-      "form": 10,
-      "specialization": 10,
-      "resets": 5,
-      "analysis": 4
-    },
-    "red_flags": [],
-    "red_flag_count": 0,
-    "market_type": "mature",
     "grade": "B",
-    "analyzed_at": "2026-04-01T18:51:20.034785+00:00"
+    "red_flags": [],
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "CONSIDER",
+    "recommendation_text": "Good risk/reward profile — reduce stake ~30% vs Grade A.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086119+00:00"
   },
   {
     "name": "EarlyBird_DE",
@@ -235,21 +235,25 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.834625+00:00",
     "score": 76,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 10,
-      "verification": 13,
-      "bookmaker": 5,
-      "form": 10,
-      "specialization": 6,
-      "resets": 3,
-      "analysis": 4
-    },
-    "red_flags": [],
-    "red_flag_count": 0,
-    "market_type": "early",
     "grade": "B",
-    "analyzed_at": "2026-04-01T18:51:20.034576+00:00"
+    "red_flags": [],
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "CONSIDER",
+    "recommendation_text": "Good risk/reward profile — reduce stake ~30% vs Grade A.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      },
+      {
+        "sport": "Tennis",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086001+00:00"
   },
   {
     "name": "Mr Henryk",
@@ -289,25 +293,38 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.835044+00:00",
     "score": 76,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 15,
-      "verification": 0,
-      "bookmaker": 5,
-      "form": 10,
-      "specialization": 6,
-      "resets": 5,
-      "analysis": 10
-    },
+    "grade": "B",
     "red_flags": [
       "UNVERIFIED",
       "EXTREME_YIELD"
     ],
-    "red_flag_count": 2,
-    "market_type": "mature",
-    "grade": "C",
-    "grade_note": "Degradacja: 2 red flags",
-    "analyzed_at": "2026-04-01T18:51:20.034652+00:00"
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "MONITOR",
+    "recommendation_text": "Solid numbers (18% yield, 3384 picks) but unverified. Cannot confirm odds were available at posted prices. Follow with reduced stake (30–50%) and track personally for 60 days.",
+    "weak_leagues_flag": true,
+    "weak_leagues": [
+      "Youth Events"
+    ],
+    "sport_analysis": [
+      {
+        "sport": "Volleyball",
+        "yield": null
+      },
+      {
+        "sport": "Handball",
+        "yield": null
+      },
+      {
+        "sport": "Basketball",
+        "yield": null
+      },
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086050+00:00"
   },
   {
     "name": "deadthinker",
@@ -341,25 +358,24 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.835290+00:00",
     "score": 70,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 15,
-      "verification": 0,
-      "bookmaker": 5,
-      "form": 10,
-      "specialization": 6,
-      "resets": 5,
-      "analysis": 4
-    },
+    "grade": "B",
     "red_flags": [
       "UNVERIFIED",
       "EXTREME_YIELD"
     ],
-    "red_flag_count": 2,
-    "market_type": "mature",
-    "grade": "C",
-    "grade_note": "Degradacja: 2 red flags",
-    "analyzed_at": "2026-04-01T18:51:20.034738+00:00"
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "MONITOR",
+    "recommendation_text": "Solid numbers (24% yield, 1310 picks) but unverified. Cannot confirm odds were available at posted prices. Follow with reduced stake (30–50%) and track personally for 60 days.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086094+00:00"
   },
   {
     "name": "VALUEDADDY",
@@ -393,21 +409,23 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.835361+00:00",
     "score": 68,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 0,
-      "verification": 13,
-      "bookmaker": 5,
-      "form": 10,
-      "specialization": 6,
-      "resets": 5,
-      "analysis": 4
-    },
-    "red_flags": [],
-    "red_flag_count": 0,
-    "market_type": "mature",
-    "grade": "B",
-    "analyzed_at": "2026-04-01T18:51:20.034763+00:00"
+    "grade": "C",
+    "red_flags": [
+      "TINY_SAMPLE"
+    ],
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "WATCH",
+    "recommendation_text": "Only 30 picks — far too small to draw any conclusions. A 22% yield over 30 picks is within normal variance, not evidence of skill. Monitor for at least 200+ picks before considering paid access.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086107+00:00"
   },
   {
     "name": "Pacorie1977",
@@ -441,71 +459,23 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.834930+00:00",
     "score": 65,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 10,
-      "verification": 0,
-      "bookmaker": 5,
-      "form": 10,
-      "specialization": 6,
-      "resets": 5,
-      "analysis": 4
-    },
+    "grade": "C",
     "red_flags": [
       "UNVERIFIED"
     ],
-    "red_flag_count": 1,
-    "market_type": "mature",
-    "grade": "B",
-    "analyzed_at": "2026-04-01T18:51:20.034626+00:00"
-  },
-  {
-    "name": "volleyball1",
-    "url": "https://blogabet.com/volleyball1",
-    "yield_pct": 40,
-    "picks_count": 27,
-    "verification": "paid",
-    "bookmaker_profile": "soft_only",
-    "recent_form_yield": 32.0,
-    "specialization": "mono_specialist",
-    "resets": 0,
-    "analysis_quality": "none",
-    "top_sports": [
-      "Volleyball"
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "AVOID / OBSERVE",
+    "recommendation_text": "Grade C — risk outweighs potential value. Numbers are more consistent with luck than repeatable edge. Observe only; do not invest until Grade improves to B or higher.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
     ],
-    "top_leagues": [],
-    "odds_avg": 1.85,
-    "win_rate": 60,
-    "live_pct": 10,
-    "avg_hours_before_match": 24,
-    "followers": 18,
-    "avg_stake": 5.0,
-    "months_active": 12,
-    "profitable_months_12": 6,
-    "pinnacle_yield": null,
-    "soft_bookie_yield": null,
-    "live_yield": null,
-    "prematch_yield": null,
-    "sport_percentages": {},
-    "bookie_percentages": {},
-    "top_bookmakers": [],
-    "scraped_at": "2026-04-01T18:49:41.835505+00:00",
-    "score": 63,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 0,
-      "verification": 13,
-      "bookmaker": 0,
-      "form": 10,
-      "specialization": 10,
-      "resets": 5,
-      "analysis": 0
-    },
-    "red_flags": [],
-    "red_flag_count": 0,
-    "market_type": "mature",
-    "grade": "C",
-    "analyzed_at": "2026-04-01T18:51:20.034807+00:00"
+    "analyzed_at": "2026-04-01T19:21:32.086033+00:00"
   },
   {
     "name": "ChePicks",
@@ -543,23 +513,25 @@
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.834811+00:00",
     "score": 55,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 5,
-      "verification": 0,
-      "bookmaker": 0,
-      "form": 10,
-      "specialization": 6,
-      "resets": 5,
-      "analysis": 4
-    },
-    "red_flags": [
-      "UNVERIFIED"
-    ],
-    "red_flag_count": 1,
-    "market_type": "mature",
     "grade": "C",
-    "analyzed_at": "2026-04-01T18:51:20.034602+00:00"
+    "red_flags": [
+      "UNVERIFIED",
+      "EXTREME_YIELD",
+      "SOFT_ONLY_EDGE"
+    ],
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "AVOID",
+    "recommendation_text": "Yield of 79% is statistically impossible to sustain long-term. Classic profile: cherry-picked entries, retroactive posting, or very low-odds manipulation. Do not follow regardless of pick count.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086022+00:00"
   },
   {
     "name": "ghostface89",
@@ -592,23 +564,78 @@
     "bookie_percentages": {},
     "top_bookmakers": [],
     "scraped_at": "2026-04-01T18:49:41.835134+00:00",
-    "score": 47,
-    "score_breakdown": {
-      "yield": 25,
-      "picks": 5,
-      "verification": 0,
-      "bookmaker": 0,
-      "form": 10,
-      "specialization": 2,
-      "resets": 5,
-      "analysis": 0
-    },
+    "score": 29,
+    "grade": "F",
     "red_flags": [
-      "UNVERIFIED"
+      "LIVE_UNVERIFIED",
+      "UNVERIFIED",
+      "EXTREME_YIELD",
+      "SOFT_ONLY_EDGE"
     ],
-    "red_flag_count": 1,
-    "market_type": "mature",
-    "grade": "D",
-    "analyzed_at": "2026-04-01T18:51:20.034678+00:00"
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "AVOID",
+    "recommendation_text": "Yield of 64% is statistically impossible to sustain long-term. Classic profile: cherry-picked entries, retroactive posting, or very low-odds manipulation. Do not follow regardless of pick count.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Football",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086062+00:00"
+  },
+  {
+    "name": "volleyball1",
+    "url": "https://blogabet.com/volleyball1",
+    "yield_pct": 40,
+    "picks_count": 27,
+    "verification": "paid",
+    "bookmaker_profile": "soft_only",
+    "recent_form_yield": 32.0,
+    "specialization": "mono_specialist",
+    "resets": 0,
+    "analysis_quality": "none",
+    "top_sports": [
+      "Volleyball"
+    ],
+    "top_leagues": [],
+    "odds_avg": 1.85,
+    "win_rate": 60,
+    "live_pct": 10,
+    "avg_hours_before_match": 24,
+    "followers": 18,
+    "avg_stake": 5.0,
+    "months_active": 12,
+    "profitable_months_12": 6,
+    "pinnacle_yield": null,
+    "soft_bookie_yield": null,
+    "live_yield": null,
+    "prematch_yield": null,
+    "sport_percentages": {},
+    "bookie_percentages": {},
+    "top_bookmakers": [],
+    "scraped_at": "2026-04-01T18:49:41.835505+00:00",
+    "score": 29,
+    "grade": "F",
+    "red_flags": [
+      "TINY_SAMPLE",
+      "EXTREME_YIELD",
+      "SOFT_ONLY_EDGE"
+    ],
+    "trend_status": "declining",
+    "trend_text": "⚠️ 3M below all-time — reverting to mean",
+    "recommendation_label": "WATCH",
+    "recommendation_text": "Only 27 picks — far too small to draw any conclusions. A 40% yield over 27 picks is within normal variance, not evidence of skill. Monitor for at least 200+ picks before considering paid access.",
+    "weak_leagues_flag": false,
+    "weak_leagues": [],
+    "sport_analysis": [
+      {
+        "sport": "Volleyball",
+        "yield": null
+      }
+    ],
+    "analyzed_at": "2026-04-01T19:21:32.086130+00:00"
   }
 ]

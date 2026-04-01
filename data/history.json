@@ -1,39 +1,110 @@
-[
-  {
-    "date": "2026-04-01",
-    "count": 12,
-    "avg_score": 72.0,
-    "top5": [
-      {
-        "name": "SharpEdge_PL",
-        "score": 93,
-        "yield": 8.4,
-        "grade": "A"
-      },
-      {
-        "name": "TraderBG",
-        "score": 89,
-        "yield": 23,
-        "grade": "A"
-      },
-      {
-        "name": "ValueHunter_CZ",
-        "score": 85,
-        "yield": 11.2,
-        "grade": "A"
-      },
-      {
-        "name": "HT Tipster",
-        "score": 77,
-        "yield": 27,
-        "grade": "B"
-      },
-      {
-        "name": "EarlyBird_DE",
-        "score": 76,
-        "yield": 14.5,
-        "grade": "B"
-      }
-    ]
-  }
-]
+{
+  "SharpEdge_PL": [
+    {
+      "date": "2026-04-01",
+      "score": 93,
+      "grade": "A",
+      "yield": 8.4,
+      "picks": 1247
+    }
+  ],
+  "TraderBG": [
+    {
+      "date": "2026-04-01",
+      "score": 89,
+      "grade": "A",
+      "yield": 23,
+      "picks": 1770
+    }
+  ],
+  "ValueHunter_CZ": [
+    {
+      "date": "2026-04-01",
+      "score": 85,
+      "grade": "A",
+      "yield": 11.2,
+      "picks": 834
+    }
+  ],
+  "HT Tipster": [
+    {
+      "date": "2026-04-01",
+      "score": 77,
+      "grade": "B",
+      "yield": 27,
+      "picks": 331
+    }
+  ],
+  "EarlyBird_DE": [
+    {
+      "date": "2026-04-01",
+      "score": 76,
+      "grade": "B",
+      "yield": 14.5,
+      "picks": 612
+    }
+  ],
+  "Mr Henryk": [
+    {
+      "date": "2026-04-01",
+      "score": 76,
+      "grade": "B",
+      "yield": 18,
+      "picks": 3384
+    }
+  ],
+  "deadthinker": [
+    {
+      "date": "2026-04-01",
+      "score": 70,
+      "grade": "B",
+      "yield": 24,
+      "picks": 1310
+    }
+  ],
+  "VALUEDADDY": [
+    {
+      "date": "2026-04-01",
+      "score": 68,
+      "grade": "C",
+      "yield": 22,
+      "picks": 30
+    }
+  ],
+  "Pacorie1977": [
+    {
+      "date": "2026-04-01",
+      "score": 65,
+      "grade": "C",
+      "yield": 28,
+      "picks": 571
+    }
+  ],
+  "ChePicks": [
+    {
+      "date": "2026-04-01",
+      "score": 55,
+      "grade": "C",
+      "yield": 79,
+      "picks": 362
+    }
+  ],
+  "ghostface89": [
+    {
+      "date": "2026-04-01",
+      "score": 29,
+      "grade": "F",
+      "yield": 64,
+      "picks": 368
+    }
+  ],
+  "volleyball1": [
+    {
+      "date": "2026-04-01",
+      "score": 29,
+      "grade": "F",
+      "yield": 40,
+      "picks": 27
+    }
+  ]
+}
