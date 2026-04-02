@@ -48,7 +48,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.085947+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444715+00:00"
   },
   {
     "name": "TraderBG",
@@ -98,7 +98,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086082+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444867+00:00"
   },
   {
     "name": "ValueHunter_CZ",
@@ -149,7 +149,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.085983+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444747+00:00"
   },
   {
     "name": "HT Tipster",
@@ -197,7 +197,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086119+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444907+00:00"
   },
   {
     "name": "EarlyBird_DE",
@@ -253,7 +253,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086001+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444765+00:00"
   },
   {
     "name": "Mr Henryk",
@@ -295,8 +295,8 @@
     "score": 76,
     "grade": "B",
     "red_flags": [
-      "UNVERIFIED",
-      "EXTREME_YIELD"
+      "EXTREME_YIELD",
+      "UNVERIFIED"
     ],
     "trend_status": "declining",
     "trend_text": "⚠️ 3M below all-time — reverting to mean",
@@ -324,7 +324,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086050+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444813+00:00"
   },
   {
     "name": "deadthinker",
@@ -360,8 +360,8 @@
     "score": 70,
     "grade": "B",
     "red_flags": [
-      "UNVERIFIED",
-      "EXTREME_YIELD"
+      "EXTREME_YIELD",
+      "UNVERIFIED"
     ],
     "trend_status": "declining",
     "trend_text": "⚠️ 3M below all-time — reverting to mean",
@@ -375,7 +375,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086094+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444880+00:00"
   },
   {
     "name": "VALUEDADDY",
@@ -425,7 +425,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086107+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444894+00:00"
   },
   {
     "name": "Pacorie1977",
@@ -475,7 +475,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086033+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444796+00:00"
   },
   {
     "name": "ChePicks",
@@ -515,8 +515,8 @@
     "score": 55,
     "grade": "C",
     "red_flags": [
-      "UNVERIFIED",
       "EXTREME_YIELD",
+      "UNVERIFIED",
       "SOFT_ONLY_EDGE"
     ],
     "trend_status": "declining",
@@ -531,7 +531,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086022+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444784+00:00"
   },
   {
     "name": "ghostface89",
@@ -568,8 +568,8 @@
     "grade": "F",
     "red_flags": [
       "LIVE_UNVERIFIED",
-      "UNVERIFIED",
       "EXTREME_YIELD",
+      "UNVERIFIED",
       "SOFT_ONLY_EDGE"
     ],
     "trend_status": "declining",
@@ -584,7 +584,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086062+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444825+00:00"
   },
   {
     "name": "volleyball1",
@@ -620,8 +620,8 @@
     "score": 29,
     "grade": "F",
     "red_flags": [
-      "TINY_SAMPLE",
       "EXTREME_YIELD",
+      "TINY_SAMPLE",
       "SOFT_ONLY_EDGE"
     ],
     "trend_status": "declining",
@@ -636,6 +636,6 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-04-01T19:21:32.086130+00:00"
+    "analyzed_at": "2026-04-02T09:40:03.444918+00:00"
   }
 ]
