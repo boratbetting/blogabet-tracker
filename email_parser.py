@@ -260,6 +260,21 @@ def fetch_signals():
 
     mail.select('INBOX')
 
+    # DEBUG: show 5 newest emails to verify correct account
+    print(f"\n📧 DEBUG — 5 newest emails in INBOX:")
+    try:
+        status, data = mail.search(None, 'ALL')
+        if status == 'OK' and data[0]:
+            all_ids = data[0].split()
+            for mid in all_ids[-5:]:
+                st, md = mail.fetch(mid, '(BODY[HEADER.FIELDS (FROM SUBJECT DATE)])')
+                if st == 'OK':
+                    hdr = md[0][1].decode('utf-8', errors='replace')
+                    print(f"   {hdr.strip()[:120]}")
+    except Exception as e:
+        print(f"   Error: {e}")
+    print()
+
     # Search for Blogabet emails from last N days
     since_date = (datetime.utcnow() - timedelta(days=DAYS_BACK)).strftime('%d-%b-%Y')
     
@@ -299,8 +314,10 @@ def fetch_signals():
         except: pass
         
         for folder in ['"[Gmail]/All Mail"', '"[Gmail]/Wszystkie"', '"[Gmail]/Ca\\xc5\\x82a poczta"',
-                       '"[Gmail]/Cała poczta"', '"INBOX"', '"[Gmail]/Updates"', 
-                       '"[Gmail]/Aktualizacje"', '"[Gmail]/Promotions"', '"[Gmail]/Oferty"']:
+                       '"[Gmail]/Cała poczta"', '"[Gmail]/Spam"',
+                       '"[Gmail]/Updates"', '"[Gmail]/Aktualizacje"', 
+                       '"[Gmail]/Promotions"', '"[Gmail]/Oferty"',
+                       '"Osobiste"', '"Praca"', '"Potwierdzenia"']:
             try:
                 status, _ = mail.select(folder)
                 if status == 'OK':
@@ -387,7 +404,13 @@ def merge_and_save(new_signals):
     with open(OUTPUT_FILE, 'w') as f:
         json.dump(merged, f, indent=2, ensure_ascii=False)
     
-    print(f"💾 Saved: {OUTPUT_FILE} ({os.path.getsize(OUTPUT_FILE) // 1024}KB)")
+    # Also save to docs/ for GitHub Pages
+    docs_file = OUTPUT_FILE.replace('data/', 'docs/data/')
+    os.makedirs(os.path.dirname(docs_file), exist_ok=True)
+    with open(docs_file, 'w') as f:
+        json.dump(merged, f, indent=2, ensure_ascii=False)
+    
+    print(f"💾 Saved: {OUTPUT_FILE} + {docs_file} ({os.path.getsize(OUTPUT_FILE) // 1024}KB)")
     
     return merged
 
