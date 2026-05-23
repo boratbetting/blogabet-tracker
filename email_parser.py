@@ -351,6 +351,9 @@ def fetch_signals():
             
             # Only keep signals with at least tipster + pick
             if signal['tipster'] or signal['pick'] or signal['match']:
+                # Mark volleyball
+                if signal['is_volleyball'] or signal['sport'].lower() == 'volleyball':
+                    signal['is_volleyball'] = True
                 signals.append(signal)
                 
         except Exception as e:
