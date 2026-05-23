@@ -149,10 +149,10 @@ def parse_blogabet_email(msg):
         if m:
             signal['tipster'] = m.group(1).strip().lstrip('* +')
 
-    # Tipster URL — blogabet.com link
-    m = re.search(r'(https?://\S+\.blogabet\.com\S*)', full_text)
+    # Tipster URL — tipster's blogabet page (not logo)
+    m = re.search(r'(https?://[\w-]+\.blogabet\.com)(?:/|\s|")', full_text)
     if m:
-        signal['tipster_url'] = m.group(1).strip('()')
+        signal['tipster_url'] = m.group(1)
 
     # Match — "Team A - Team B" patterns
     m = re.search(r'(?:^|\n)\s*([A-Z][\w\s\.\(\)\']+?)\s*[-–]\s*([A-Z][\w\s\.\(\)\']+?)\s*(?:\n|$)', full_text, re.MULTILINE)
@@ -226,14 +226,25 @@ def parse_blogabet_email(msg):
             signal['bookmaker'] = m.group(1)
 
     # Pick URL — "View pick" link
-    m = re.search(r'(https?://\S+blogabet\.com/pick/\S+)', full_text)
+    m = re.search(r'(https?://[\w-]+\.blogabet\.com/pick/\d+/[\w-]+)', full_text)
     if m:
-        signal['pick_url'] = m.group(1).strip('()')
+        signal['pick_url'] = m.group(1)
 
-    # Volleyball classification
-    signal['is_volleyball'] = is_volleyball(full_text)
+    # Volleyball classification — sport field takes PRIORITY
     if signal['sport'].lower() == 'volleyball':
         signal['is_volleyball'] = True
+    elif signal['sport'] and signal['sport'].lower() in ('basketball', 'football', 'tennis', 'hockey', 'baseball', 'handball', 'esports', 'cricket', 'boxing', 'mma'):
+        signal['is_volleyball'] = False
+    else:
+        signal['is_volleyball'] = is_volleyball(full_text)
+    
+    # Extract match from pick_url if match fields are empty
+    if not signal['match'] and signal['pick_url']:
+        m_url = re.search(r'/pick/\d+/([a-z0-9-]+)', signal['pick_url'])
+        if m_url:
+            parts = m_url.group(1).split('-')
+            # Find team separator (common patterns: team1-team2, or team1-w-team2-w)
+            signal['match'] = m_url.group(1).replace('-', ' ').title()
 
     # Generate unique ID
     id_source = f"{signal['tipster']}_{signal['match']}_{signal['timestamp']}"
