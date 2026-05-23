@@ -140,46 +140,72 @@ def parse_blogabet_email(msg):
         'pick_url': '',
     }
 
-    # Tipster name — "XYZ published a new pick"
-    m = re.search(r'(?:^|\n)\s*(.+?)\s*published a new pick', full_text)
+    # Tipster name — "pick from TIPSTER for" or "XYZ published a new pick"
+    m = re.search(r'pick from\s+(\S+)\s+for', subject, re.IGNORECASE)
     if m:
-        signal['tipster'] = m.group(1).strip().lstrip('* +')
+        signal['tipster'] = m.group(1).strip()
+    else:
+        m = re.search(r'(?:^|\n)\s*(.+?)\s*published a new pick', full_text)
+        if m:
+            signal['tipster'] = m.group(1).strip().lstrip('* +')
 
     # Tipster URL — blogabet.com link
     m = re.search(r'(https?://\S+\.blogabet\.com\S*)', full_text)
     if m:
         signal['tipster_url'] = m.group(1).strip('()')
 
-    # Match — "Team A - Team B" or "Team A vs Team B"
-    m = re.search(r'\n\s*([A-Z][\w\s\.\(\)]+?)\s*[-–]\s*([A-Z][\w\s\.\(\)]+?)\s*\n', full_text)
+    # Match — "Team A - Team B" patterns
+    m = re.search(r'(?:^|\n)\s*([A-Z][\w\s\.\(\)\']+?)\s*[-–]\s*([A-Z][\w\s\.\(\)\']+?)\s*(?:\n|$)', full_text, re.MULTILINE)
     if m:
         signal['home'] = m.group(1).strip()
         signal['away'] = m.group(2).strip()
         signal['match'] = f"{signal['home']} vs {signal['away']}"
+    else:
+        # Try colon-separated format: "Country : Team A - Team B"
+        m = re.search(r':\s*\n?\s*([A-Z][\w\s\.\(\)\']+?)\s*[-–]\s*([A-Z][\w\s\.\(\)\']+?)(?:\s*\n|$)', full_text)
+        if m:
+            signal['home'] = m.group(1).strip()
+            signal['away'] = m.group(2).strip()
+            signal['match'] = f"{signal['home']} vs {signal['away']}"
 
-    # Pick line — "Handicap (Sets) Team +1.5 @ 1.833"
-    m = re.search(r'((?:Handicap|Over|Under|Match Winner|Moneyline|Total|1X2|ML|Set)\s*(?:\([^)]*\))?\s*[^\n@]+?)\s*@\s*([\d\.]+)', full_text, re.IGNORECASE)
+    # Pick line — "pick: Team Handicap -2.5 (Game Lines); stake: 3/10; odds: 1.720"
+    m = re.search(r'pick:\s*(.+?);\s*(?:stake|$)', full_text, re.IGNORECASE)
     if m:
         signal['pick'] = m.group(1).strip()
-        try:
-            signal['odds'] = float(m.group(2))
-        except ValueError:
-            pass
+    else:
+        m = re.search(r'((?:Handicap|Over|Under|Match Winner|Moneyline|Total|1X2|ML|Set)\s*(?:\([^)]*\))?\s*[^\n@;]+?)\s*@\s*([\d\.]+)', full_text, re.IGNORECASE)
+        if m:
+            signal['pick'] = m.group(1).strip()
+
+    # Odds — "odds: 1.720" or "@ 1.833"
+    m = re.search(r'odds:\s*([\d\.]+)', full_text, re.IGNORECASE)
+    if m:
+        try: signal['odds'] = float(m.group(1))
+        except: pass
+    elif not signal['odds']:
+        m = re.search(r'@\s*([\d\.]+)', full_text)
+        if m:
+            try: signal['odds'] = float(m.group(1))
+            except: pass
 
     # Stake — "2/10" or "5/10" etc.
     m = re.search(r'(\d+)/10', full_text)
     if m:
         signal['stake'] = int(m.group(1))
 
-    # Sport — "Volleyball / Livebet" or "Football / ..."
-    m = re.search(r'\b(Volleyball|Football|Basketball|Tennis|Hockey|Baseball|Handball|Esports|Cricket|Boxing|MMA)\b', full_text, re.IGNORECASE)
+    # Sport — from subject "pick from X for Volleyball / Country" or body
+    m = re.search(r'for\s+(Volleyball|Football|Basketball|Tennis|Hockey|Baseball|Handball|Esports|Cricket|Boxing|MMA)\b', subject, re.IGNORECASE)
     if m:
         signal['sport'] = m.group(1).capitalize()
+    else:
+        m = re.search(r'\b(Volleyball|Football|Basketball|Tennis|Hockey|Baseball|Handball|Esports|Cricket|Boxing|MMA)\b', full_text, re.IGNORECASE)
+        if m:
+            signal['sport'] = m.group(1).capitalize()
 
-    # League
-    m = re.search(r'(?:Volleyball|Football|Basketball|Tennis)\s*/\s*(.+?)(?:\s*/|\s*Odds|\s*Kick)', full_text, re.IGNORECASE)
+    # League — "Volleyball - Uruguay :" or "Volleyball / Livebet"
+    m = re.search(r'(?:Volleyball|Football|Basketball|Tennis)\s*[-/]\s*([^:\n]+)', full_text, re.IGNORECASE)
     if m:
-        signal['league'] = m.group(1).strip()
+        signal['league'] = m.group(1).strip().rstrip(':')
 
     # Live bet
     if re.search(r'\bLIVE\b|\bLivebet\b|\bin-play\b', full_text, re.IGNORECASE):
@@ -239,10 +265,11 @@ def fetch_signals():
     
     # Try multiple search strategies
     search_queries = [
+        f'(FROM "no-reply@blogabet.com" SINCE {since_date})',
+        f'(FROM "blogabet.com" SINCE {since_date})',
         f'(FROM "blogabet" SINCE {since_date})',
-        f'(FROM "notifications@blogabet.com" SINCE {since_date})',
-        f'(SUBJECT "published a new pick" SINCE {since_date})',
-        f'(BODY "blogabet.com/pick" SINCE {since_date})',
+        f'(SUBJECT "pick from" SINCE {since_date})',
+        f'(SUBJECT "blogabet" SINCE {since_date})',
     ]
     
     msg_ids = []
@@ -259,10 +286,21 @@ def fetch_signals():
         except Exception as e:
             print(f"   → Error: {e}")
     
-    # If still nothing, try All Mail
+    # If still nothing, try All Mail and other folders
     if not msg_ids:
-        print(f"\n📂 INBOX empty, trying [Gmail]/All Mail...")
-        for folder in ['"[Gmail]/All Mail"', '"[Gmail]/Wszystkie"', '"[Gmail]/Cała poczta"']:
+        print(f"\n📂 INBOX empty, trying other folders...")
+        # List available folders
+        try:
+            status, folders = mail.list()
+            if status == 'OK':
+                print(f"   Available folders:")
+                for f in folders[:15]:
+                    print(f"     {f.decode() if isinstance(f, bytes) else f}")
+        except: pass
+        
+        for folder in ['"[Gmail]/All Mail"', '"[Gmail]/Wszystkie"', '"[Gmail]/Ca\\xc5\\x82a poczta"',
+                       '"[Gmail]/Cała poczta"', '"INBOX"', '"[Gmail]/Updates"', 
+                       '"[Gmail]/Aktualizacje"', '"[Gmail]/Promotions"', '"[Gmail]/Oferty"']:
             try:
                 status, _ = mail.select(folder)
                 if status == 'OK':
@@ -273,8 +311,9 @@ def fetch_signals():
                             ids = data[0].split()
                             print(f"   {q} → {len(ids)} results")
                             msg_ids.extend(ids)
-                    break
-            except Exception:
+                    if msg_ids:
+                        break
+            except Exception as e:
                 continue
     
     # Dedupe
