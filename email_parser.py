@@ -26,7 +26,7 @@ IMAP_PORT = 993
 SENDER_FILTER = 'blogabet.com'
 MAX_SIGNALS = 500
 OUTPUT_FILE = 'data/email_signals.json'
-DAYS_BACK = 14  # scan last 14 days
+DAYS_BACK = 30  # scan last 30 days
 
 # ── Volleyball keywords ──
 VOLLEYBALL_KEYWORDS = [
@@ -236,18 +236,50 @@ def fetch_signals():
 
     # Search for Blogabet emails from last N days
     since_date = (datetime.utcnow() - timedelta(days=DAYS_BACK)).strftime('%d-%b-%Y')
-    search_query = f'(FROM "blogabet" SINCE {since_date})'
     
-    print(f"🔍 Searching: {search_query}")
-    status, data = mail.search(None, search_query)
+    # Try multiple search strategies
+    search_queries = [
+        f'(FROM "blogabet" SINCE {since_date})',
+        f'(FROM "notifications@blogabet.com" SINCE {since_date})',
+        f'(SUBJECT "published a new pick" SINCE {since_date})',
+        f'(BODY "blogabet.com/pick" SINCE {since_date})',
+    ]
     
-    if status != 'OK':
-        print(f"❌ Search failed: {status}")
-        mail.logout()
-        return []
-
-    msg_ids = data[0].split()
-    print(f"📬 Found {len(msg_ids)} emails from Blogabet (last {DAYS_BACK} days)")
+    msg_ids = []
+    for q in search_queries:
+        print(f"🔍 Trying: {q}")
+        try:
+            status, data = mail.search(None, q)
+            if status == 'OK' and data[0]:
+                ids = data[0].split()
+                print(f"   → {len(ids)} results")
+                msg_ids.extend(ids)
+            else:
+                print(f"   → 0 results")
+        except Exception as e:
+            print(f"   → Error: {e}")
+    
+    # If still nothing, try All Mail
+    if not msg_ids:
+        print(f"\n📂 INBOX empty, trying [Gmail]/All Mail...")
+        for folder in ['"[Gmail]/All Mail"', '"[Gmail]/Wszystkie"', '"[Gmail]/Cała poczta"']:
+            try:
+                status, _ = mail.select(folder)
+                if status == 'OK':
+                    print(f"   Opened: {folder}")
+                    for q in search_queries[:2]:
+                        status, data = mail.search(None, q)
+                        if status == 'OK' and data[0]:
+                            ids = data[0].split()
+                            print(f"   {q} → {len(ids)} results")
+                            msg_ids.extend(ids)
+                    break
+            except Exception:
+                continue
+    
+    # Dedupe
+    msg_ids = list(dict.fromkeys(msg_ids))
+    print(f"\n📬 Total unique emails found: {len(msg_ids)} (last {DAYS_BACK} days)")
 
     signals = []
     for mid in msg_ids:
