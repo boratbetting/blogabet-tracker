@@ -149,7 +149,7 @@ def parse_blogabet_email(msg):
     }
 
     # Tipster name — "pick from TIPSTER for" or "XYZ published a new pick"
-    m = re.search(r'pick from\s+(\S+)\s+for', subject, re.IGNORECASE)
+    m = re.search(r'pick from\s+(.+?)\s+for\s', subject, re.IGNORECASE)
     if m:
         signal['tipster'] = m.group(1).strip()
     else:
@@ -272,9 +272,17 @@ def parse_blogabet_email(msg):
             # Find team separator (common patterns: team1-team2, or team1-w-team2-w)
             signal['match'] = m_url.group(1).replace('-', ' ').title()
 
-    # Generate unique ID
-    id_source = f"{signal['tipster']}_{signal['match']}_{signal['timestamp']}"
-    signal['id'] = hashlib.md5(id_source.encode()).hexdigest()[:12]
+    # ── Clean HTML tags from all text fields ──
+    for key in ['match', 'home', 'away', 'pick', 'league', 'tipster', 'tipster_url', 'pick_url']:
+        if signal[key]:
+            signal[key] = re.sub(r'<[^>]+>', '', signal[key]).strip()
+
+    # Generate unique ID based on pick_url (most stable identifier)
+    if signal['pick_url']:
+        signal['id'] = hashlib.md5(signal['pick_url'].encode()).hexdigest()[:12]
+    else:
+        id_source = f"{signal['tipster']}_{signal['match']}_{signal['timestamp']}"
+        signal['id'] = hashlib.md5(id_source.encode()).hexdigest()[:12]
 
     return signal
 
