@@ -106,10 +106,18 @@ def parse_blogabet_email(msg):
                 payload = part.get_payload(decode=True)
                 if payload:
                     charset = part.get_content_charset() or 'utf-8'
-                    body = payload.decode(charset, errors='replace')
-                    # Strip HTML tags
-                    body = re.sub(r'<[^>]+>', ' ', body)
-                    body = re.sub(r'\s+', ' ', body).strip()
+                    raw_html = payload.decode(charset, errors='replace')
+                    # Convert HTML to text preserving structure
+                    # Add newlines before block elements
+                    raw_html = re.sub(r'<br\s*/?\s*>', '\n', raw_html, flags=re.IGNORECASE)
+                    raw_html = re.sub(r'</(p|div|tr|td|th|li|h[1-6])>', '\n', raw_html, flags=re.IGNORECASE)
+                    raw_html = re.sub(r'<(p|div|tr|li|h[1-6])[^>]*>', '\n', raw_html, flags=re.IGNORECASE)
+                    # Strip remaining tags
+                    body = re.sub(r'<[^>]+>', ' ', raw_html)
+                    # Clean up whitespace but keep newlines
+                    body = re.sub(r'[ \t]+', ' ', body)
+                    body = re.sub(r'\n\s*\n+', '\n', body)
+                    body = body.strip()
     else:
         payload = msg.get_payload(decode=True)
         if payload:
@@ -154,30 +162,39 @@ def parse_blogabet_email(msg):
     if m:
         signal['tipster_url'] = m.group(1)
 
-    # Match — "Team A - Team B" patterns
-    m = re.search(r'(?:^|\n)\s*([A-Z][\w\s\.\(\)\']+?)\s*[-–]\s*([A-Z][\w\s\.\(\)\']+?)\s*(?:\n|$)', full_text, re.MULTILINE)
+    # Match — "Team A - Team B" patterns (after HTML strip, may be on same line)
+    # Try structured format first: "Sport - League : \n Team A - Team B"
+    m = re.search(r'(?:Volleyball|Football|Basketball|Tennis|Hockey)\s*[-/]\s*[^:]+:\s*\n?\s*(.+?)\s*[-–]\s*(.+?)(?:\s*\n|\s*pick:)', full_text, re.IGNORECASE)
     if m:
         signal['home'] = m.group(1).strip()
         signal['away'] = m.group(2).strip()
         signal['match'] = f"{signal['home']} vs {signal['away']}"
     else:
-        # Try colon-separated format: "Country : Team A - Team B"
-        m = re.search(r':\s*\n?\s*([A-Z][\w\s\.\(\)\']+?)\s*[-–]\s*([A-Z][\w\s\.\(\)\']+?)(?:\s*\n|$)', full_text)
+        # Fallback: any "Team A - Team B" with capital letters
+        m = re.search(r'(?:^|\n)\s*([A-Z][\w\s\.\(\)\']+?)\s*[-–]\s*([A-Z][\w\s\.\(\)\']+?)\s*(?:\n|$)', full_text, re.MULTILINE)
         if m:
             signal['home'] = m.group(1).strip()
             signal['away'] = m.group(2).strip()
             signal['match'] = f"{signal['home']} vs {signal['away']}"
+        else:
+            # Last resort: from pick_url
+            m = re.search(r':\s*\n?\s*([A-Z][\w\s\.\(\)\']+?)\s*[-–]\s*([A-Z][\w\s\.\(\)\']+?)(?:\s*\n|$)', full_text)
+            if m:
+                signal['home'] = m.group(1).strip()
+                signal['away'] = m.group(2).strip()
+                signal['match'] = f"{signal['home']} vs {signal['away']}"
 
-    # Pick line — "pick: Team Handicap -2.5 (Game Lines); stake: 3/10; odds: 1.720"
-    m = re.search(r'pick:\s*(.+?);\s*(?:stake|$)', full_text, re.IGNORECASE)
+    # Pick line — "pick: PICK_TEXT;" (Blogabet standard format)
+    m = re.search(r'pick:\s*(.+?)\s*;', full_text, re.IGNORECASE)
     if m:
         signal['pick'] = m.group(1).strip()
     else:
+        # Fallback: "Handicap/Over/Under ... @ odds"
         m = re.search(r'((?:Handicap|Over|Under|Match Winner|Moneyline|Total|1X2|ML|Set)\s*(?:\([^)]*\))?\s*[^\n@;]+?)\s*@\s*([\d\.]+)', full_text, re.IGNORECASE)
         if m:
             signal['pick'] = m.group(1).strip()
 
-    # Odds — "odds: 1.720" or "@ 1.833"
+    # Odds — "odds: 1.720" or "odds: 1.720;"
     m = re.search(r'odds:\s*([\d\.]+)', full_text, re.IGNORECASE)
     if m:
         try: signal['odds'] = float(m.group(1))
@@ -187,6 +204,15 @@ def parse_blogabet_email(msg):
         if m:
             try: signal['odds'] = float(m.group(1))
             except: pass
+
+    # Stake — "stake: 3/10" or "3/10"
+    m = re.search(r'stake:\s*(\d+)/10', full_text, re.IGNORECASE)
+    if m:
+        signal['stake'] = int(m.group(1))
+    else:
+        m = re.search(r'(\d+)/10', full_text)
+        if m:
+            signal['stake'] = int(m.group(1))
 
     # Stake — "2/10" or "5/10" etc.
     m = re.search(r'(\d+)/10', full_text)
@@ -349,6 +375,7 @@ def fetch_signals():
     print(f"\n📬 Total unique emails found: {len(msg_ids)} (last {DAYS_BACK} days)")
 
     signals = []
+    debug_count = 0
     for mid in msg_ids:
         try:
             status, msg_data = mail.fetch(mid, '(RFC822)')
@@ -366,6 +393,19 @@ def fetch_signals():
                 if signal['is_volleyball'] or signal['sport'].lower() == 'volleyball':
                     signal['is_volleyball'] = True
                 signals.append(signal)
+                
+                # Debug: show first 3 parsed signals
+                if debug_count < 3:
+                    print(f"\n  📋 Signal #{debug_count+1}: {signal['tipster']}")
+                    print(f"     match: {signal['match']}")
+                    print(f"     home:  {signal['home']}")
+                    print(f"     away:  {signal['away']}")
+                    print(f"     pick:  {signal['pick']}")
+                    print(f"     odds:  {signal['odds']}")
+                    print(f"     stake: {signal['stake']}")
+                    print(f"     sport: {signal['sport']}")
+                    print(f"     vball: {signal['is_volleyball']}")
+                    debug_count += 1
                 
         except Exception as e:
             print(f"  ⚠ Error parsing email {mid}: {e}")
