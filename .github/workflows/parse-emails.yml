@@ -1,0 +1,40 @@
+name: 📬 Parse Blogabet Emails
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes
+  workflow_dispatch:          # Manual trigger
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  parse-emails:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run email parser
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python email_parser.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "Blogabet Bot"
+          git config user.email "bot@betedge.pl"
+          git add data/email_signals.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "📬 $(date -u '+%Y-%m-%d') — email signals update"
+            git push
+          fi
