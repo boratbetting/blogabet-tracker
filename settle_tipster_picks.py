@@ -31,38 +31,57 @@ def save_json(path, data):
     with open(path, 'w') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-def search_betsapi_match(home, away, date_str=None):
-    """Search BetsAPI for a volleyball match by team names."""
+def extract_match_from_url(pick_url):
+    """Extract team names from Blogabet pick URL slug."""
+    if not pick_url:
+        return None, None
+    import re
+    m = re.search(r'/pick/\d+/(.+?)/?$', pick_url.rstrip('"'))
+    if not m:
+        return None, None
+    slug = m.group(1).replace('-', ' ').strip()
+    # Common patterns: "team1-team2" or "team1-w-team2-w"
+    # Try to split at middle
+    words = slug.split()
+    mid = len(words) // 2
+    if mid > 0:
+        return ' '.join(words[:mid]), ' '.join(words[mid:])
+    return slug, None
+
+def search_betsapi_by_date(home, away, date_str):
+    """Search BetsAPI ended events by date for volleyball."""
     if not BETSAPI_TOKEN:
         return None
     import requests
-    # Try searching by team name
-    query = f"{home} {away}".replace("(W)", "").replace("(M)", "").strip()
+    # Format date for BetsAPI: YYYYMMDD
+    day = date_str.replace('-', '')[:8] if date_str else None
+    if not day or len(day) < 8:
+        return None
     try:
-        # Search ended events
-        r = requests.get("https://api.b365api.com/v1/events/search",
-            params={"token": BETSAPI_TOKEN, "sport_id": 91, "q": query[:50]},
+        time.sleep(0.4)
+        r = requests.get("https://api.b365api.com/v3/events/ended",
+            params={"sport_id": 91, "day": day, "token": BETSAPI_TOKEN},
             timeout=15)
         if r.status_code != 200:
             return None
         data = r.json()
         if data.get("success") != 1:
             return None
-        results = data.get("results", [])
-        if not results:
+        events = data.get("results", [])
+        if not events:
             return None
         # Find best match
-        best = None
-        best_score = 0
-        hl = home.lower().replace("(w)", "").strip()
-        al = away.lower().replace("(w)", "").strip()
-        for ev in results:
-            eh = (ev.get("home", {}) or {}).get("name", "").lower()
-            ea = (ev.get("away", {}) or {}).get("name", "").lower()
+        hl = (home or '').lower().replace('(w)','').replace('(m)','').strip()
+        al = (away or '').lower().replace('(w)','').replace('(m)','').strip()
+        best, best_score = None, 0
+        for ev in events:
+            eh = ((ev.get("home", {}) or {}).get("name", "") or "").lower()
+            ea = ((ev.get("away", {}) or {}).get("name", "") or "").lower()
             score = 0
-            if hl in eh or eh in hl: score += 40
-            if al in ea or ea in al: score += 40
-            # Last word match
+            # Full name
+            if hl and (hl in eh or eh in hl): score += 40
+            if al and (al in ea or ea in al): score += 40
+            # Last word
             hlw = hl.split()[-1] if hl.split() else ""
             alw = al.split()[-1] if al.split() else ""
             if hlw and len(hlw) > 3 and hlw in eh: score += 20
@@ -70,9 +89,50 @@ def search_betsapi_match(home, away, date_str=None):
             if score > best_score:
                 best_score = score
                 best = ev
-        if best_score < 40:
+        if best_score < 30:
             return None
         return best
+    except Exception as e:
+        print(f"  [BetsAPI date search] error: {e}")
+        return None
+
+def search_betsapi_match(home, away, date_str=None):
+    """Search BetsAPI for a volleyball match — try date search first, then name search."""
+    if not BETSAPI_TOKEN:
+        return None
+    # Method 1: Search by date (more reliable)
+    if date_str:
+        result = search_betsapi_by_date(home, away, date_str)
+        if result:
+            return result
+    # Method 2: Search by name (fallback)
+    import requests
+    query = f"{home} {away}".replace("(W)", "").replace("(M)", "").strip()[:50]
+    try:
+        time.sleep(0.4)
+        r = requests.get("https://api.b365api.com/v1/events/search",
+            params={"token": BETSAPI_TOKEN, "sport_id": 91, "q": query},
+            timeout=15)
+        if r.status_code != 200: return None
+        data = r.json()
+        if data.get("success") != 1: return None
+        results = data.get("results", [])
+        if not results: return None
+        hl = (home or '').lower().replace('(w)','').strip()
+        al = (away or '').lower().replace('(w)','').strip()
+        best, best_score = None, 0
+        for ev in results:
+            eh = ((ev.get("home", {}) or {}).get("name", "") or "").lower()
+            ea = ((ev.get("away", {}) or {}).get("name", "") or "").lower()
+            score = 0
+            if hl and (hl in eh or eh in hl): score += 40
+            if al and (al in ea or ea in al): score += 40
+            hlw = hl.split()[-1] if hl.split() else ""
+            alw = al.split()[-1] if al.split() else ""
+            if hlw and len(hlw) > 3 and hlw in eh: score += 20
+            if alw and len(alw) > 3 and alw in ea: score += 20
+            if score > best_score: best_score = score; best = ev
+        return best if best_score >= 30 else None
     except Exception as e:
         print(f"  [BetsAPI search] error: {e}")
         return None
@@ -173,15 +233,16 @@ def main():
         settlements = {}
     print(f"📦 Existing settlements: {len(settlements)}")
     
-    # Filter: only volleyball, only unsettled
+    # Filter: only volleyball, only unsettled or previously unmatched (retry)
     volleyball = [s for s in signals if s.get("is_volleyball")]
-    unsettled = [s for s in volleyball if s.get("id") and s["id"] not in settlements
-                 or (s.get("id") and settlements.get(s["id"], {}).get("status") == "pending")]
-    print(f"🏐 Volleyball signals: {len(volleyball)}, unsettled: {len(unsettled)}")
+    unsettled = [s for s in volleyball if s.get("id") and (
+        s["id"] not in settlements
+        or settlements.get(s["id"], {}).get("status") in ("pending", "unmatched")
+    )]
+    print(f"🏐 Volleyball signals: {len(volleyball)}, unsettled/retry: {len(unsettled)}")
     
     if not BETSAPI_TOKEN:
         print("⚠️ No BETSAPI_TOKEN — skipping BetsAPI lookups")
-        # Still save stats
         save_json(SETTLEMENTS_PATH, settlements)
         save_json(DOCS_SETTLEMENTS, settlements)
         return
@@ -189,31 +250,44 @@ def main():
     new_settled = 0
     api_calls = 0
     
-    for s in unsettled[:30]:  # Cap at 30 per run (rate limit)
+    for s in unsettled[:50]:  # Cap at 50 per run
         sid = s["id"]
         match_name = (s.get("match") or "").replace("<br/>", " ").strip()
         home = (s.get("home") or "").replace("<br/>", " ").strip()
         away = (s.get("away") or "").replace("<br/>", " ").strip()
+        
+        # Fallback: extract from pick_url if match/home/away empty
+        if (not match_name or len(match_name) < 4) and not (home and away):
+            url_home, url_away = extract_match_from_url(s.get("pick_url", ""))
+            if url_home:
+                home = home or url_home
+                away = away or url_away or ""
+                match_name = f"{home} vs {away}" if away else home
         
         if not match_name and not (home and away):
             settlements[sid] = {"status": "unmatched", "reason": "no match name",
                 "tipster": s.get("tipster", ""), "timestamp": s.get("timestamp", "")}
             continue
         
-        # Check age — only settle matches older than 4 hours
+        # Extract date from timestamp for date-based search
+        signal_date = ""
         try:
             ts = datetime.fromisoformat(s["timestamp"].replace("Z", "+00:00"))
+            signal_date = ts.strftime("%Y-%m-%d")
             age_hours = (datetime.now(ts.tzinfo) - ts).total_seconds() / 3600
             if age_hours < 4:
-                continue  # Too recent, match might still be in progress
+                continue
         except:
             pass
         
         print(f"  🔍 {s.get('tipster','?')}: {home or '?'} vs {away or '?'}")
         
         # Search BetsAPI
-        ev = search_betsapi_match(home or match_name.split(" vs ")[0] if " vs " in match_name else match_name,
-                                   away or match_name.split(" vs ")[1] if " vs " in match_name else "")
+        ev = search_betsapi_match(
+            home or (match_name.split(" vs ")[0] if " vs " in match_name else match_name),
+            away or (match_name.split(" vs ")[1] if " vs " in match_name else ""),
+            signal_date
+        )
         api_calls += 1
         time.sleep(0.4)
         
