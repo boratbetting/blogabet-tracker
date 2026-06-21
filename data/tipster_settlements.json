@@ -57,7 +57,7 @@
     "stake": 3,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-21T19:35:03.303070",
+    "settled_at": "2026-06-21T20:17:08.907534",
     "timestamp": "2026-05-23T13:13:03+00:00"
   },
   "00c0966519ce": {
@@ -205,7 +205,7 @@
     "stake": 2,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-21T19:35:10.860766",
+    "settled_at": "2026-06-21T20:17:17.975931",
     "timestamp": "2026-05-15T16:58:48+00:00"
   },
   "d0587fdb5953": {
@@ -306,7 +306,7 @@
     "stake": 2,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-21T19:35:19.213771",
+    "settled_at": "2026-06-21T20:17:26.723942",
     "timestamp": "2026-05-14T08:02:36+00:00"
   },
   "27eb12fde1b9": {
@@ -355,7 +355,7 @@
     "stake": 8,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-21T19:35:24.132488",
+    "settled_at": "2026-06-21T20:17:29.811231",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "79e19a39bee5": {
@@ -369,7 +369,7 @@
     "stake": 8,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-21T19:35:25.497999",
+    "settled_at": "2026-06-21T20:17:31.210143",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "77c5e774788d": {
@@ -559,7 +559,7 @@
     "stake": 1,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-21T19:34:57.924391",
+    "settled_at": "2026-06-21T20:17:03.196269",
     "timestamp": "2026-05-31T15:37:27+00:00"
   },
   "f0fad431ac7a": {
