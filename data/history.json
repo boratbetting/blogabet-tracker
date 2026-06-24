@@ -580,6 +580,13 @@
       "grade": "A",
       "yield": 8.4,
       "picks": 1247
+    },
+    {
+      "date": "2026-06-24",
+      "score": 93,
+      "grade": "A",
+      "yield": 8.4,
+      "picks": 1247
     }
   ],
   "TraderBG": [
@@ -1159,6 +1166,13 @@
     },
     {
       "date": "2026-06-23",
+      "score": 89,
+      "grade": "A",
+      "yield": 23,
+      "picks": 1770
+    },
+    {
+      "date": "2026-06-24",
       "score": 89,
       "grade": "A",
       "yield": 23,
@@ -1746,6 +1760,13 @@
       "grade": "A",
       "yield": 11.2,
       "picks": 834
+    },
+    {
+      "date": "2026-06-24",
+      "score": 85,
+      "grade": "A",
+      "yield": 11.2,
+      "picks": 834
     }
   ],
   "HT Tipster": [
@@ -2325,6 +2346,13 @@
     },
     {
       "date": "2026-06-23",
+      "score": 77,
+      "grade": "B",
+      "yield": 27,
+      "picks": 331
+    },
+    {
+      "date": "2026-06-24",
       "score": 77,
       "grade": "B",
       "yield": 27,
@@ -2912,6 +2940,13 @@
       "grade": "B",
       "yield": 14.5,
       "picks": 612
+    },
+    {
+      "date": "2026-06-24",
+      "score": 76,
+      "grade": "B",
+      "yield": 14.5,
+      "picks": 612
     }
   ],
   "Mr Henryk": [
@@ -3491,6 +3526,13 @@
     },
     {
       "date": "2026-06-23",
+      "score": 76,
+      "grade": "B",
+      "yield": 18,
+      "picks": 3384
+    },
+    {
+      "date": "2026-06-24",
       "score": 76,
       "grade": "B",
       "yield": 18,
@@ -4078,6 +4120,13 @@
       "grade": "B",
       "yield": 24,
       "picks": 1310
+    },
+    {
+      "date": "2026-06-24",
+      "score": 70,
+      "grade": "B",
+      "yield": 24,
+      "picks": 1310
     }
   ],
   "VALUEDADDY": [
@@ -4657,6 +4706,13 @@
     },
     {
       "date": "2026-06-23",
+      "score": 68,
+      "grade": "C",
+      "yield": 22,
+      "picks": 30
+    },
+    {
+      "date": "2026-06-24",
       "score": 68,
       "grade": "C",
       "yield": 22,
@@ -5244,6 +5300,13 @@
       "grade": "C",
       "yield": 28,
       "picks": 571
+    },
+    {
+      "date": "2026-06-24",
+      "score": 65,
+      "grade": "C",
+      "yield": 28,
+      "picks": 571
     }
   ],
   "ChePicks": [
@@ -5823,6 +5886,13 @@
     },
     {
       "date": "2026-06-23",
+      "score": 55,
+      "grade": "C",
+      "yield": 79,
+      "picks": 362
+    },
+    {
+      "date": "2026-06-24",
       "score": 55,
       "grade": "C",
       "yield": 79,
@@ -6410,6 +6480,13 @@
       "grade": "F",
       "yield": 64,
       "picks": 368
+    },
+    {
+      "date": "2026-06-24",
+      "score": 29,
+      "grade": "F",
+      "yield": 64,
+      "picks": 368
     }
   ],
   "volleyball1": [
@@ -6989,6 +7066,13 @@
     },
     {
       "date": "2026-06-23",
+      "score": 29,
+      "grade": "F",
+      "yield": 40,
+      "picks": 27
+    },
+    {
+      "date": "2026-06-24",
       "score": 29,
       "grade": "F",
       "yield": 40,
