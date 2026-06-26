@@ -47,10 +47,17 @@
     "timestamp": "2026-05-23T13:13:03+00:00"
   },
   "5151d7d4b2c5": {
-    "status": "unmatched",
-    "reason": "not found in BetsAPI",
+    "status": "pending",
     "tipster": "volleyball1",
-    "match": "nacional w vs juan ferreira w",
+    "match": "Nacional B vs Juan Ferreira",
+    "ss": "0-3",
+    "event_id": "11930122",
+    "market": "unknown",
+    "odds": 1.72,
+    "stake": 3,
+    "profit": 0,
+    "sport": "volleyball",
+    "settled_at": "2026-06-26T14:59:14.786657",
     "timestamp": "2026-05-23T13:13:03+00:00"
   },
   "00c0966519ce": {
@@ -198,7 +205,7 @@
     "stake": 2,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-26T13:49:49.649927",
+    "settled_at": "2026-06-26T14:59:22.084621",
     "timestamp": "2026-05-15T16:58:48+00:00"
   },
   "d0587fdb5953": {
@@ -299,7 +306,7 @@
     "stake": 2,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-26T13:50:10.941559",
+    "settled_at": "2026-06-26T14:59:30.589109",
     "timestamp": "2026-05-14T08:02:36+00:00"
   },
   "27eb12fde1b9": {
@@ -348,7 +355,7 @@
     "stake": 8,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-26T13:50:14.028718",
+    "settled_at": "2026-06-26T14:59:33.745388",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "79e19a39bee5": {
@@ -362,7 +369,7 @@
     "stake": 8,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-26T13:50:15.377136",
+    "settled_at": "2026-06-26T14:59:35.173277",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "77c5e774788d": {
@@ -552,7 +559,7 @@
     "stake": 1,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-26T13:49:07.271193",
+    "settled_at": "2026-06-26T14:59:10.208861",
     "timestamp": "2026-05-31T15:37:27+00:00"
   },
   "f0fad431ac7a": {
