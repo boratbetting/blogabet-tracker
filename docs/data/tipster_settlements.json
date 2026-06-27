@@ -57,7 +57,7 @@
     "stake": 3,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-27T14:39:28.903153",
+    "settled_at": "2026-06-27T15:11:27.196070",
     "timestamp": "2026-05-23T13:13:03+00:00"
   },
   "00c0966519ce": {
@@ -195,10 +195,17 @@
     "timestamp": "2026-05-15T16:58:48+00:00"
   },
   "8b1655da9dcf": {
-    "status": "unmatched",
-    "reason": "not found in BetsAPI",
+    "status": "pending",
     "tipster": "",
-    "match": "Vero Volley Monza U19 Volley Treviso U19",
+    "match": "Vero Volley Monza U19 vs Volley Treviso U19",
+    "ss": "3-0",
+    "event_id": "11894764",
+    "market": "unknown",
+    "odds": 2.1,
+    "stake": 2,
+    "profit": 0,
+    "sport": "volleyball",
+    "settled_at": "2026-06-27T15:11:36.526749",
     "timestamp": "2026-05-15T16:58:48+00:00"
   },
   "d0587fdb5953": {
@@ -299,7 +306,7 @@
     "stake": 2,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-27T14:40:01.238208",
+    "settled_at": "2026-06-27T15:11:45.311580",
     "timestamp": "2026-05-14T08:02:36+00:00"
   },
   "27eb12fde1b9": {
@@ -348,7 +355,7 @@
     "stake": 8,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-27T14:40:06.682578",
+    "settled_at": "2026-06-27T15:11:48.301878",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "79e19a39bee5": {
@@ -362,7 +369,7 @@
     "stake": 8,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-27T14:40:08.089245",
+    "settled_at": "2026-06-27T15:11:49.713787",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "77c5e774788d": {
@@ -552,7 +559,7 @@
     "stake": 1,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-06-27T14:39:20.893569",
+    "settled_at": "2026-06-27T15:11:22.591469",
     "timestamp": "2026-05-31T15:37:27+00:00"
   },
   "f0fad431ac7a": {
