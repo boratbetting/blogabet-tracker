@@ -57,7 +57,7 @@
     "stake": 3,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-07-01T11:25:22.345710",
+    "settled_at": "2026-07-01T12:24:33.383866",
     "timestamp": "2026-05-23T13:13:03+00:00"
   },
   "00c0966519ce": {
@@ -205,7 +205,7 @@
     "stake": 2,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-07-01T11:25:30.123104",
+    "settled_at": "2026-07-01T12:24:41.042189",
     "timestamp": "2026-05-15T16:58:48+00:00"
   },
   "d0587fdb5953": {
@@ -306,7 +306,7 @@
     "stake": 2,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-07-01T11:25:38.940798",
+    "settled_at": "2026-07-01T12:24:49.747928",
     "timestamp": "2026-05-14T08:02:36+00:00"
   },
   "27eb12fde1b9": {
@@ -345,17 +345,10 @@
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "b31aa74e3d2b": {
-    "status": "pending",
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
     "tipster": "VALUEDADDY",
-    "match": "Al Rayyan vs Hyundai Skywalkers",
-    "ss": "1-3",
-    "event_id": "11878762",
-    "market": "unknown",
-    "odds": 1.615,
-    "stake": 8,
-    "profit": 0,
-    "sport": "volleyball",
-    "settled_at": "2026-07-01T11:25:41.951194",
+    "match": "Al Rayyan Hyundai Skywalkers",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "79e19a39bee5": {
@@ -369,7 +362,7 @@
     "stake": 8,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-07-01T11:25:43.348524",
+    "settled_at": "2026-07-01T12:25:08.839209",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "77c5e774788d": {
@@ -559,7 +552,7 @@
     "stake": 1,
     "profit": 0,
     "sport": "volleyball",
-    "settled_at": "2026-07-01T11:25:16.154242",
+    "settled_at": "2026-07-01T12:24:28.822690",
     "timestamp": "2026-05-31T15:37:27+00:00"
   },
   "f0fad431ac7a": {
