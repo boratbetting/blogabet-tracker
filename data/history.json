@@ -1,13 +1,6 @@
 {
   "SharpEdge_PL": [
     {
-      "date": "2026-04-06",
-      "score": 93,
-      "grade": "A",
-      "yield": 8.4,
-      "picks": 1247
-    },
-    {
       "date": "2026-04-07",
       "score": 93,
       "grade": "A",
@@ -625,6 +618,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 93,
+      "grade": "A",
+      "yield": 8.4,
+      "picks": 1247
+    },
+    {
+      "date": "2026-07-06",
       "score": 93,
       "grade": "A",
       "yield": 8.4,
@@ -633,13 +633,6 @@
   ],
   "TraderBG": [
     {
-      "date": "2026-04-06",
-      "score": 89,
-      "grade": "A",
-      "yield": 23,
-      "picks": 1770
-    },
-    {
       "date": "2026-04-07",
       "score": 89,
       "grade": "A",
@@ -1257,6 +1250,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 89,
+      "grade": "A",
+      "yield": 23,
+      "picks": 1770
+    },
+    {
+      "date": "2026-07-06",
       "score": 89,
       "grade": "A",
       "yield": 23,
@@ -1265,13 +1265,6 @@
   ],
   "ValueHunter_CZ": [
     {
-      "date": "2026-04-06",
-      "score": 85,
-      "grade": "A",
-      "yield": 11.2,
-      "picks": 834
-    },
-    {
       "date": "2026-04-07",
       "score": 85,
       "grade": "A",
@@ -1889,6 +1882,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 85,
+      "grade": "A",
+      "yield": 11.2,
+      "picks": 834
+    },
+    {
+      "date": "2026-07-06",
       "score": 85,
       "grade": "A",
       "yield": 11.2,
@@ -1897,13 +1897,6 @@
   ],
   "HT Tipster": [
     {
-      "date": "2026-04-06",
-      "score": 77,
-      "grade": "B",
-      "yield": 27,
-      "picks": 331
-    },
-    {
       "date": "2026-04-07",
       "score": 77,
       "grade": "B",
@@ -2521,6 +2514,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 77,
+      "grade": "B",
+      "yield": 27,
+      "picks": 331
+    },
+    {
+      "date": "2026-07-06",
       "score": 77,
       "grade": "B",
       "yield": 27,
@@ -2529,13 +2529,6 @@
   ],
   "EarlyBird_DE": [
     {
-      "date": "2026-04-06",
-      "score": 76,
-      "grade": "B",
-      "yield": 14.5,
-      "picks": 612
-    },
-    {
       "date": "2026-04-07",
       "score": 76,
       "grade": "B",
@@ -3153,6 +3146,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 76,
+      "grade": "B",
+      "yield": 14.5,
+      "picks": 612
+    },
+    {
+      "date": "2026-07-06",
       "score": 76,
       "grade": "B",
       "yield": 14.5,
@@ -3161,13 +3161,6 @@
   ],
   "Mr Henryk": [
     {
-      "date": "2026-04-06",
-      "score": 76,
-      "grade": "B",
-      "yield": 18,
-      "picks": 3384
-    },
-    {
       "date": "2026-04-07",
       "score": 76,
       "grade": "B",
@@ -3785,6 +3778,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 76,
+      "grade": "B",
+      "yield": 18,
+      "picks": 3384
+    },
+    {
+      "date": "2026-07-06",
       "score": 76,
       "grade": "B",
       "yield": 18,
@@ -3793,13 +3793,6 @@
   ],
   "deadthinker": [
     {
-      "date": "2026-04-06",
-      "score": 70,
-      "grade": "B",
-      "yield": 24,
-      "picks": 1310
-    },
-    {
       "date": "2026-04-07",
       "score": 70,
       "grade": "B",
@@ -4417,6 +4410,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 70,
+      "grade": "B",
+      "yield": 24,
+      "picks": 1310
+    },
+    {
+      "date": "2026-07-06",
       "score": 70,
       "grade": "B",
       "yield": 24,
@@ -4425,13 +4425,6 @@
   ],
   "VALUEDADDY": [
     {
-      "date": "2026-04-06",
-      "score": 68,
-      "grade": "C",
-      "yield": 22,
-      "picks": 30
-    },
-    {
       "date": "2026-04-07",
       "score": 68,
       "grade": "C",
@@ -5049,6 +5042,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 68,
+      "grade": "C",
+      "yield": 22,
+      "picks": 30
+    },
+    {
+      "date": "2026-07-06",
       "score": 68,
       "grade": "C",
       "yield": 22,
@@ -5057,13 +5057,6 @@
   ],
   "Pacorie1977": [
     {
-      "date": "2026-04-06",
-      "score": 65,
-      "grade": "C",
-      "yield": 28,
-      "picks": 571
-    },
-    {
       "date": "2026-04-07",
       "score": 65,
       "grade": "C",
@@ -5681,6 +5674,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 65,
+      "grade": "C",
+      "yield": 28,
+      "picks": 571
+    },
+    {
+      "date": "2026-07-06",
       "score": 65,
       "grade": "C",
       "yield": 28,
@@ -5689,13 +5689,6 @@
   ],
   "ChePicks": [
     {
-      "date": "2026-04-06",
-      "score": 55,
-      "grade": "C",
-      "yield": 79,
-      "picks": 362
-    },
-    {
       "date": "2026-04-07",
       "score": 55,
       "grade": "C",
@@ -6313,6 +6306,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 55,
+      "grade": "C",
+      "yield": 79,
+      "picks": 362
+    },
+    {
+      "date": "2026-07-06",
       "score": 55,
       "grade": "C",
       "yield": 79,
@@ -6321,13 +6321,6 @@
   ],
   "ghostface89": [
     {
-      "date": "2026-04-06",
-      "score": 29,
-      "grade": "F",
-      "yield": 64,
-      "picks": 368
-    },
-    {
       "date": "2026-04-07",
       "score": 29,
       "grade": "F",
@@ -6945,6 +6938,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 29,
+      "grade": "F",
+      "yield": 64,
+      "picks": 368
+    },
+    {
+      "date": "2026-07-06",
       "score": 29,
       "grade": "F",
       "yield": 64,
@@ -6953,13 +6953,6 @@
   ],
   "volleyball1": [
     {
-      "date": "2026-04-06",
-      "score": 29,
-      "grade": "F",
-      "yield": 40,
-      "picks": 27
-    },
-    {
       "date": "2026-04-07",
       "score": 29,
       "grade": "F",
@@ -7577,6 +7570,13 @@
     },
     {
       "date": "2026-07-05",
+      "score": 29,
+      "grade": "F",
+      "yield": 40,
+      "picks": 27
+    },
+    {
+      "date": "2026-07-06",
       "score": 29,
       "grade": "F",
       "yield": 40,
