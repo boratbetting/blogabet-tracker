@@ -47,17 +47,10 @@
     "timestamp": "2026-05-23T13:13:03+00:00"
   },
   "5151d7d4b2c5": {
-    "status": "pending",
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
     "tipster": "volleyball1",
-    "match": "Nacional B vs Juan Ferreira",
-    "ss": "0-3",
-    "event_id": "11930122",
-    "market": "unknown",
-    "odds": 1.72,
-    "stake": 3,
-    "profit": 0,
-    "sport": "volleyball",
-    "settled_at": "2026-07-09T13:37:11.025873",
+    "match": "nacional w vs juan ferreira w",
     "timestamp": "2026-05-23T13:13:03+00:00"
   },
   "00c0966519ce": {
@@ -195,17 +188,10 @@
     "timestamp": "2026-05-15T16:58:48+00:00"
   },
   "8b1655da9dcf": {
-    "status": "pending",
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
     "tipster": "",
-    "match": "Vero Volley Monza U19 vs Volley Treviso U19",
-    "ss": "3-0",
-    "event_id": "11894764",
-    "market": "unknown",
-    "odds": 2.1,
-    "stake": 2,
-    "profit": 0,
-    "sport": "volleyball",
-    "settled_at": "2026-07-09T13:37:20.199779",
+    "match": "Vero Volley Monza U19 Volley Treviso U19",
     "timestamp": "2026-05-15T16:58:48+00:00"
   },
   "d0587fdb5953": {
@@ -296,17 +282,10 @@
     "timestamp": "2026-05-14T08:02:36+00:00"
   },
   "c1cd9c3b87a1": {
-    "status": "pending",
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
     "tipster": "",
-    "match": "Itas Trentino U19 vs Vero Volley Monza U19",
-    "ss": "1-3",
-    "event_id": "11889989",
-    "market": "unknown",
-    "odds": 2.5,
-    "stake": 2,
-    "profit": 0,
-    "sport": "volleyball",
-    "settled_at": "2026-07-09T13:37:32.479644",
+    "match": "Cuneo Sport U19 Itas Trentino U19",
     "timestamp": "2026-05-14T08:02:36+00:00"
   },
   "27eb12fde1b9": {
@@ -345,31 +324,17 @@
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "b31aa74e3d2b": {
-    "status": "pending",
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
     "tipster": "VALUEDADDY",
-    "match": "Al Rayyan vs Hyundai Skywalkers",
-    "ss": "1-3",
-    "event_id": "11878762",
-    "market": "unknown",
-    "odds": 1.615,
-    "stake": 8,
-    "profit": 0,
-    "sport": "volleyball",
-    "settled_at": "2026-07-09T13:37:35.477968",
+    "match": "Al Rayyan Hyundai Skywalkers",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "79e19a39bee5": {
-    "status": "pending",
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
     "tipster": "VALUEDADDY",
-    "match": "Al Rayyan vs Hyundai Skywalkers",
-    "ss": "1-3",
-    "event_id": "11878762",
-    "market": "unknown",
-    "odds": 1.615,
-    "stake": 8,
-    "profit": 0,
-    "sport": "volleyball",
-    "settled_at": "2026-07-09T13:37:36.880851",
+    "match": "al rayyan vs hyundai skywalkers",
     "timestamp": "2026-05-13T13:42:39+00:00"
   },
   "77c5e774788d": {
@@ -549,17 +514,10 @@
     "timestamp": "2026-05-31T19:05:06+00:00"
   },
   "65ce151e75a0": {
-    "status": "pending",
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
     "tipster": "volleyball1",
-    "match": "Enfoque B vs Arrieta - CDV",
-    "ss": "1-3",
-    "event_id": "11967184",
-    "market": "unknown",
-    "odds": 1.83,
-    "stake": 1,
-    "profit": 0,
-    "sport": "volleyball",
-    "settled_at": "2026-07-09T13:37:06.304686",
+    "match": "Enfoque (W) vs CDV (W)",
     "timestamp": "2026-05-31T15:37:27+00:00"
   },
   "f0fad431ac7a": {
