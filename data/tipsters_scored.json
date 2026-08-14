@@ -48,7 +48,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894498+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273618+00:00"
   },
   {
     "name": "TraderBG",
@@ -98,7 +98,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894597+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273748+00:00"
   },
   {
     "name": "ValueHunter_CZ",
@@ -149,7 +149,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894523+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273649+00:00"
   },
   {
     "name": "HT Tipster",
@@ -197,7 +197,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894625+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273784+00:00"
   },
   {
     "name": "EarlyBird_DE",
@@ -253,7 +253,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894536+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273666+00:00"
   },
   {
     "name": "Mr Henryk",
@@ -324,7 +324,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894571+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273715+00:00"
   },
   {
     "name": "deadthinker",
@@ -375,7 +375,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894606+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273760+00:00"
   },
   {
     "name": "VALUEDADDY",
@@ -425,7 +425,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894619+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273776+00:00"
   },
   {
     "name": "Pacorie1977",
@@ -475,7 +475,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894559+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273697+00:00"
   },
   {
     "name": "ChePicks",
@@ -531,7 +531,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894551+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273685+00:00"
   },
   {
     "name": "ghostface89",
@@ -567,9 +567,9 @@
     "score": 29,
     "grade": "F",
     "red_flags": [
+      "LIVE_UNVERIFIED",
       "UNVERIFIED",
       "EXTREME_YIELD",
-      "LIVE_UNVERIFIED",
       "SOFT_ONLY_EDGE"
     ],
     "trend_status": "declining",
@@ -584,7 +584,7 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894580+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273728+00:00"
   },
   {
     "name": "volleyball1",
@@ -636,6 +636,6 @@
         "yield": null
       }
     ],
-    "analyzed_at": "2026-08-13T07:09:09.894633+00:00"
+    "analyzed_at": "2026-08-14T07:05:54.273795+00:00"
   }
 ]
