@@ -561,5 +561,12 @@
     "sport": "volleyball",
     "settled_at": "2026-06-07T14:28:35.245032",
     "timestamp": "2026-06-07T09:52:43+00:00"
+  },
+  "f0149e7e4658": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Mr Henryk",
+    "match": "NU Bulldogs vs Arellano Chiefs",
+    "timestamp": "2026-09-26T07:06:39+00:00"
   }
 }
