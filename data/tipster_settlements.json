@@ -575,5 +575,12 @@
     "tipster": "Mr Henryk",
     "match": "CSJL Knights (W) vs Arellano Lady Chiefs (W)",
     "timestamp": "2026-09-27T08:29:41+00:00"
+  },
+  "6bbbbff97514": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "fretham",
+    "match": "Ilbank (W) vs Aras Kargo (W)",
+    "timestamp": "2026-09-28T15:17:46+00:00"
   }
 }
