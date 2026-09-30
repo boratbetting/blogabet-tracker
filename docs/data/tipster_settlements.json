@@ -589,5 +589,40 @@
     "tipster": "Berlin Tips",
     "match": "Union Vecinal General Belgrano vs Defensores de Banfield B",
     "timestamp": "2026-09-30T10:47:07+00:00"
+  },
+  "bd97cd43d000": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "VK Brno vs SKP Kometa Brno",
+    "timestamp": "2026-09-30T15:19:37+00:00"
+  },
+  "e405dfb39aea": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "SMS PZPS Szczyrk (W) vs WTS Solna Wieliczka (W)",
+    "timestamp": "2026-09-30T13:55:04+00:00"
+  },
+  "c70849ef676d": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Sms Pzps Szczyrk vs 7R Solna Wieliczkastake: 3/10",
+    "timestamp": "2026-09-30T13:50:09+00:00"
+  },
+  "4986f3217547": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Sms Pzps Szczyrk vs 7R Solna Wieliczkastake: 5/10",
+    "timestamp": "2026-09-30T13:48:14+00:00"
+  },
+  "2b766f856252": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Centro Galicia de Buenos Aires vs UNLAM Voley",
+    "timestamp": "2026-09-30T11:09:15+00:00"
   }
 }
