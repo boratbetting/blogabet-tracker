@@ -582,5 +582,12 @@
     "tipster": "fretham",
     "match": "Ilbank (W) vs Aras Kargo (W)",
     "timestamp": "2026-09-28T15:17:46+00:00"
+  },
+  "56eebae7719f": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Union Vecinal General Belgrano vs Defensores de Banfield B",
+    "timestamp": "2026-09-30T10:47:07+00:00"
   }
 }
