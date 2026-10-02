@@ -624,5 +624,12 @@
     "tipster": "Berlin Tips",
     "match": "Centro Galicia de Buenos Aires vs UNLAM Voley",
     "timestamp": "2026-09-30T11:09:15+00:00"
+  },
+  "b4edb63341d6": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Mr Henryk",
+    "match": "India vs South Korea",
+    "timestamp": "2026-10-02T01:08:11+00:00"
   }
 }
