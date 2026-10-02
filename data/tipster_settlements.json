@@ -631,5 +631,19 @@
     "tipster": "Mr Henryk",
     "match": "India vs South Korea",
     "timestamp": "2026-10-02T01:08:11+00:00"
+  },
+  "68f90534eeae": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-02T08:59:05+00:00"
+  },
+  "11d106d6ed2f": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Studenti vs Partizani Tirana",
+    "timestamp": "2026-10-02T08:58:33+00:00"
   }
 }
