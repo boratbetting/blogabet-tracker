@@ -645,5 +645,12 @@
     "tipster": "Berlin Tips",
     "match": "Studenti vs Partizani Tirana",
     "timestamp": "2026-10-02T08:58:33+00:00"
+  },
+  "e89849084d44": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Kuwait vs Algeria",
+    "timestamp": "2026-10-07T14:21:06+00:00"
   }
 }
