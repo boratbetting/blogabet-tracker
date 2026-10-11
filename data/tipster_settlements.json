@@ -652,5 +652,19 @@
     "tipster": "ghostface89",
     "match": "Kuwait vs Algeria",
     "timestamp": "2026-10-07T14:21:06+00:00"
+  },
+  "14127e131d4c": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Daejeon JungKwanJang (W) vs Heungkuk Pink Spiders (W)",
+    "timestamp": "2026-10-11T07:25:00+00:00"
+  },
+  "410d3bc0f421": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Daejeon JungKwanJang (W) vs Heungkuk Pink Spiders (W)",
+    "timestamp": "2026-10-11T07:24:52+00:00"
   }
 }
