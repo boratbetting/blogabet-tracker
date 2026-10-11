@@ -666,5 +666,12 @@
     "tipster": "ghostface89",
     "match": "Daejeon JungKwanJang (W) vs Heungkuk Pink Spiders (W)",
     "timestamp": "2026-10-11T07:24:52+00:00"
+  },
+  "92a3c0fb706b": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "fretham",
+    "match": "Afyon Bld (W) vs THY Spor Kulubu (W)",
+    "timestamp": "2026-10-11T10:57:34+00:00"
   }
 }
