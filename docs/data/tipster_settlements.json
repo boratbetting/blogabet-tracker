@@ -673,5 +673,75 @@
     "tipster": "fretham",
     "match": "Afyon Bld (W) vs THY Spor Kulubu (W)",
     "timestamp": "2026-10-11T10:57:34+00:00"
+  },
+  "0f202393e099": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Jimbeam",
+    "match": "Gentofte Volley vs Ikast KFUM Volleyballstake: 2/10",
+    "timestamp": "2026-10-13T15:49:48+00:00"
+  },
+  "3d2f60644acb": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Mav Elore SC (W) vs TFSE (W)",
+    "timestamp": "2026-10-13T15:01:23+00:00"
+  },
+  "917c5813c0d7": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Mav Elore SC (W) vs TFSE (W)",
+    "timestamp": "2026-10-13T15:00:24+00:00"
+  },
+  "e2d886abb287": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-13T14:48:42+00:00"
+  },
+  "709784bebb45": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "SZESE Gyor (W) vs Budaorsi DSE (W)",
+    "timestamp": "2026-10-13T14:23:49+00:00"
+  },
+  "78a731437bf4": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "SZESE Gyor (W) vs Budaorsi DSE (W)",
+    "timestamp": "2026-10-13T14:22:41+00:00"
+  },
+  "580cea75427f": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Gentofte (W) vs Ikast KFUM (W)",
+    "timestamp": "2026-10-13T13:32:23+00:00"
+  },
+  "8048933b2fff": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Gentofte (W) vs Ikast KFUM (W)",
+    "timestamp": "2026-10-13T13:30:46+00:00"
+  },
+  "6c078a86fe8e": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Gentofte (W) vs Ikast KFUM (W)",
+    "timestamp": "2026-10-13T13:30:39+00:00"
+  },
+  "4fb73abfb5cf": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Gentofte (W) vs Ikast KFUM (W)",
+    "timestamp": "2026-10-13T13:30:26+00:00"
   }
 }
