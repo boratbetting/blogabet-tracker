@@ -778,5 +778,12 @@
     "tipster": "ghostface89",
     "match": "Maritsa 2022 vs VK Dragomanstake: 5/10",
     "timestamp": "2026-10-16T12:57:43+00:00"
+  },
+  "015c1d45ea0a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-16T15:43:47+00:00"
   }
 }
