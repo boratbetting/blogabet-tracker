@@ -750,5 +750,12 @@
     "tipster": "ghostface89",
     "match": "Mav Elore SC (W) vs TFSE (W)",
     "timestamp": "2026-10-14T13:57:23+00:00"
+  },
+  "1bbd960b3218": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "SWD Duren vs SVG Luneburg",
+    "timestamp": "2026-10-15T22:01:14+00:00"
   }
 }
