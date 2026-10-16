@@ -757,5 +757,19 @@
     "tipster": "Berlin Tips",
     "match": "SWD Duren vs SVG Luneburg",
     "timestamp": "2026-10-15T22:01:14+00:00"
+  },
+  "5e944d3e381f": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-16T08:47:58+00:00"
+  },
+  "f10b7a7bb581": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "MS Ramat Aviv (W) vs MS Eilabun (W)",
+    "timestamp": "2026-10-16T08:46:33+00:00"
   }
 }
