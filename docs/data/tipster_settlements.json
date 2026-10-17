@@ -799,5 +799,82 @@
     "tipster": "Berlin Tips",
     "match": "Randaberg vs BSI",
     "timestamp": "2026-10-17T07:23:57+00:00"
+  },
+  "88652935aad4": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Goteborg vs Malmo VK",
+    "timestamp": "2026-10-17T11:31:02+00:00"
+  },
+  "16e07e379bcf": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "RiG Falkoping B vs Linkopings VC",
+    "timestamp": "2026-10-17T11:09:53+00:00"
+  },
+  "6cc591a3842a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "RiG Falkoping B vs Linkopings VC",
+    "timestamp": "2026-10-17T11:09:19+00:00"
+  },
+  "2a576e548ca9": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Palac Bydgoszcz (W) vs MKS Kalisz (W)",
+    "timestamp": "2026-10-17T10:31:30+00:00"
+  },
+  "5ae2e77afc42": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Habo vs Hasthagen",
+    "timestamp": "2026-10-17T10:23:06+00:00"
+  },
+  "03d9e3c24cff": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Habo vs Hasthagen",
+    "timestamp": "2026-10-17T10:22:50+00:00"
+  },
+  "5c6dd3966e88": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Hylte vs Vingaker",
+    "timestamp": "2026-10-17T10:01:36+00:00"
+  },
+  "19d8b7886bd8": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Hylte vs Vingaker",
+    "timestamp": "2026-10-17T10:01:17+00:00"
+  },
+  "cfac8ddd4ff1": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Maccabi Nazareth (W) vs Maccabi SVA Rehovot (W)",
+    "timestamp": "2026-10-17T08:53:41+00:00"
+  },
+  "157618a90eba": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Antwerp (W) vs Charleroi (W)",
+    "timestamp": "2026-10-17T08:38:17+00:00"
+  },
+  "92aea22ab3fa": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Randaberg vs BSI",
+    "timestamp": "2026-10-17T08:18:59+00:00"
   }
 }
