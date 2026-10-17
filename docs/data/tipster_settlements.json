@@ -785,5 +785,19 @@
     "tipster": "",
     "match": "Combo vs pick",
     "timestamp": "2026-10-16T15:43:47+00:00"
+  },
+  "cf422a38e4e4": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Tchalou Volley (W) vs Zoersel (W)",
+    "timestamp": "2026-10-17T07:44:39+00:00"
+  },
+  "680275eda18a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Randaberg vs BSI",
+    "timestamp": "2026-10-17T07:23:57+00:00"
   }
 }
