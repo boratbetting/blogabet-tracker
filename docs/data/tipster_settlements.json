@@ -946,5 +946,12 @@
     "tipster": "Donut",
     "match": "Slepsk Suwalki vs Jastrzebie-Barkom",
     "timestamp": "2026-10-18T16:03:33+00:00"
+  },
+  "00b54f2d3344": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Uni Opole (W) vs Budowlani Lodz (W)",
+    "timestamp": "2026-10-18T19:00:10+00:00"
   }
 }
