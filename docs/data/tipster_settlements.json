@@ -918,5 +918,26 @@
     "tipster": "Donut",
     "match": "MDK Warszawa vs Sparta Grodzisk Mazowiecki 2",
     "timestamp": "2026-10-18T10:14:57+00:00"
+  },
+  "5f460e9d9719": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "RIG Falkoping vs Uppsala VBSstake: 6/10",
+    "timestamp": "2026-10-18T13:26:13+00:00"
+  },
+  "5f36afdaa8ff": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "RIG Falkoping vs Uppsala VBSstake: 4/10",
+    "timestamp": "2026-10-18T13:26:00+00:00"
+  },
+  "bfe786df27e5": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "RIG Falkoping vs Uppsala VBSstake: 7/10",
+    "timestamp": "2026-10-18T13:25:44+00:00"
   }
 }
