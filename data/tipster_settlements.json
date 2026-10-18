@@ -939,5 +939,12 @@
     "tipster": "ghostface89",
     "match": "RIG Falkoping vs Uppsala VBSstake: 7/10",
     "timestamp": "2026-10-18T13:25:44+00:00"
+  },
+  "e7584e73268b": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Slepsk Suwalki vs Jastrzebie-Barkom",
+    "timestamp": "2026-10-18T16:03:33+00:00"
   }
 }
