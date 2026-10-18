@@ -911,5 +911,12 @@
     "tipster": "ghostface89",
     "match": "SVK Pezinok (W) vs Brusno (W)",
     "timestamp": "2026-10-17T15:54:49+00:00"
+  },
+  "f3dff1dc3d8b": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "MDK Warszawa vs Sparta Grodzisk Mazowiecki 2",
+    "timestamp": "2026-10-18T10:14:57+00:00"
   }
 }
