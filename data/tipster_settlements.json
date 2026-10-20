@@ -953,5 +953,26 @@
     "tipster": "Donut",
     "match": "Uni Opole (W) vs Budowlani Lodz (W)",
     "timestamp": "2026-10-18T19:00:10+00:00"
+  },
+  "6dc371ee849d": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Herceg Novi (W) vs Maritza Plovdiv (W)",
+    "timestamp": "2026-10-20T13:50:28+00:00"
+  },
+  "4a5a8d56ee33": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-20T12:31:59+00:00"
+  },
+  "f6dafc3aa1f1": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Montpellier vs Plessis Robinson",
+    "timestamp": "2026-10-20T12:29:01+00:00"
   }
 }
