@@ -974,5 +974,33 @@
     "tipster": "Berlin Tips",
     "match": "Montpellier vs Plessis Robinson",
     "timestamp": "2026-10-20T12:29:01+00:00"
+  },
+  "22f102843b1c": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-21T13:28:58+00:00"
+  },
+  "3704c9d2ef01": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Ok Herceg Novi vs FK Maritsa Plovdivstake: 3/10",
+    "timestamp": "2026-10-21T12:11:25+00:00"
+  },
+  "b5128932fdaf": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Herceg Novi (W) vs Maritza Plovdiv (W)",
+    "timestamp": "2026-10-21T11:49:19+00:00"
+  },
+  "0e5b29b102b3": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "Herceg Novi (W) vs Maritza Plovdiv (W)",
+    "timestamp": "2026-10-21T11:48:54+00:00"
   }
 }
