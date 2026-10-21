@@ -1002,5 +1002,12 @@
     "tipster": "ghostface89",
     "match": "Herceg Novi (W) vs Maritza Plovdiv (W)",
     "timestamp": "2026-10-21T11:48:54+00:00"
+  },
+  "f80837ec49c1": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Jimbeam",
+    "match": "Ok Herceg Novi vs FK Maritsa Plovdivstake: 2/10",
+    "timestamp": "2026-10-21T16:28:47+00:00"
   }
 }
