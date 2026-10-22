@@ -1023,5 +1023,26 @@
     "tipster": "Berlin Tips",
     "match": "UNLAM Voley vs Universitario de La Plata",
     "timestamp": "2026-10-21T18:39:23+00:00"
+  },
+  "8f6b60ccbf31": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Ostrava vs Kladno",
+    "timestamp": "2026-10-22T11:50:36+00:00"
+  },
+  "7005d1f5dd09": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Brno vs Odolena Voda",
+    "timestamp": "2026-10-22T11:46:14+00:00"
+  },
+  "1fa1e11174fb": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Brno vs Odolena Voda",
+    "timestamp": "2026-10-22T11:45:37+00:00"
   }
 }
