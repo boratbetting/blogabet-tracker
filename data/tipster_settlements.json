@@ -1009,5 +1009,19 @@
     "tipster": "Jimbeam",
     "match": "Ok Herceg Novi vs FK Maritsa Plovdivstake: 2/10",
     "timestamp": "2026-10-21T16:28:47+00:00"
+  },
+  "7d89c7583817": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-21T18:40:24+00:00"
+  },
+  "2a1231d4ebc9": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "UNLAM Voley vs Universitario de La Plata",
+    "timestamp": "2026-10-21T18:39:23+00:00"
   }
 }
