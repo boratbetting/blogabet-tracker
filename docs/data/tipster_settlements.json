@@ -1044,5 +1044,12 @@
     "tipster": "Berlin Tips",
     "match": "Brno vs Odolena Voda",
     "timestamp": "2026-10-22T11:45:37+00:00"
+  },
+  "f6e992262b86": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Fort Poznan vs BKS Bydgoszcz",
+    "timestamp": "2026-10-22T18:58:52+00:00"
   }
 }
