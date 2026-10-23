@@ -1051,5 +1051,19 @@
     "tipster": "Donut",
     "match": "Fort Poznan vs BKS Bydgoszcz",
     "timestamp": "2026-10-22T18:58:52+00:00"
+  },
+  "3984ae833b82": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Fort Poznan vs BKS Bydgoszcz",
+    "timestamp": "2026-10-22T20:04:48+00:00"
+  },
+  "c281c970d34e": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Fort Poznan vs BKS Bydgoszcz",
+    "timestamp": "2026-10-22T19:32:00+00:00"
   }
 }
