@@ -1065,5 +1065,26 @@
     "tipster": "Donut",
     "match": "Fort Poznan vs BKS Bydgoszcz",
     "timestamp": "2026-10-22T19:32:00+00:00"
+  },
+  "4ffbca1e51c7": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Kolin vs Karlovarsko B",
+    "timestamp": "2026-10-23T15:14:19+00:00"
+  },
+  "4913b9767acd": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-23T15:13:33+00:00"
+  },
+  "92ff73a1c5c0": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-23T15:12:37+00:00"
   }
 }
