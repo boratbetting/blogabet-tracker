@@ -1093,5 +1093,26 @@
     "tipster": "",
     "match": "Combo vs pick",
     "timestamp": "2026-10-23T21:17:43+00:00"
+  },
+  "8fd514d737d0": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "MKS Bedzin vs Kluczbork",
+    "timestamp": "2026-10-24T07:01:10+00:00"
+  },
+  "93d29439da79": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Aris vs AO Flisvos",
+    "timestamp": "2026-10-24T04:52:19+00:00"
+  },
+  "b1dd42acbe31": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Aris vs AO Flisvos",
+    "timestamp": "2026-10-24T04:50:20+00:00"
   }
 }
