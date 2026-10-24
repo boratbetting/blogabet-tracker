@@ -1121,5 +1121,40 @@
     "tipster": "Donut",
     "match": "Budowlani Lodz (W) vs Rzeszow (W)",
     "timestamp": "2026-10-24T10:05:55+00:00"
+  },
+  "3a018097c48d": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "ghostface89",
+    "match": "RIG Falkoping vs Orkelljunga",
+    "timestamp": "2026-10-24T12:19:25+00:00"
+  },
+  "bb5dffda69cc": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-24T11:47:37+00:00"
+  },
+  "737ce42e0c5d": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Noorderkempen (W) vs Oudegem (W)",
+    "timestamp": "2026-10-24T11:38:27+00:00"
+  },
+  "f306b0e55e53": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Noorderkempen (W) vs Oudegem (W)",
+    "timestamp": "2026-10-24T11:38:04+00:00"
+  },
+  "4351d0331fb2": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "RTU/Robezsardze vs Barrus/Voru VK",
+    "timestamp": "2026-10-24T11:34:47+00:00"
   }
 }
