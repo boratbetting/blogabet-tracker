@@ -1170,5 +1170,26 @@
     "tipster": "Berlin Tips",
     "match": "Linkopings VC vs Vindrarps VK",
     "timestamp": "2026-10-25T05:41:50+00:00"
+  },
+  "8d3803cc7590": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Haugesund VBK (W) vs Forde 2 (W)",
+    "timestamp": "2026-10-25T07:43:12+00:00"
+  },
+  "02581968efd1": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Jimbeam",
+    "match": "Linköpings VC vs Vindrarps vs JUST for Information",
+    "timestamp": "2026-10-25T07:39:18+00:00"
+  },
+  "3c63bef0097f": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Jimbeam",
+    "match": "Linköpings VC vs Vindrarps vs JUST for Information",
+    "timestamp": "2026-10-25T07:36:49+00:00"
   }
 }
