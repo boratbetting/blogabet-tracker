@@ -1205,5 +1205,47 @@
     "tipster": "Jimbeam",
     "match": "Olympiacos W Benfica W",
     "timestamp": "2026-10-27T17:31:31+00:00"
+  },
+  "e85b900a8e1a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Budowlani Lodz (W) vs Radomka Radom (W)",
+    "timestamp": "2026-10-28T16:32:30+00:00"
+  },
+  "04abc15f4e63": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Al Kuwait vs Al Salibikhaet",
+    "timestamp": "2026-10-28T15:56:04+00:00"
+  },
+  "1485a565512a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-10-28T15:53:36+00:00"
+  },
+  "be981b146fa8": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Al Kuwait vs Al Salibikhaet",
+    "timestamp": "2026-10-28T15:48:33+00:00"
+  },
+  "f42a119346d0": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Kozgaz SC DSK (W) vs Szent Benedek RA (W)",
+    "timestamp": "2026-10-28T14:18:32+00:00"
+  },
+  "7a572feee83a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Charleroi (W) vs Bevo Roeselare (W)",
+    "timestamp": "2026-10-28T13:14:19+00:00"
   }
 }
