@@ -1310,5 +1310,12 @@
     "tipster": "volleyball1",
     "match": "VC Aktobe (W) vs Berel BKO (W)",
     "timestamp": "2026-11-01T08:53:12+00:00"
+  },
+  "ba5e58602421": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Rzeszow (W) vs BKS Bielsko Biala (W)",
+    "timestamp": "2026-11-01T17:04:03+00:00"
   }
 }
