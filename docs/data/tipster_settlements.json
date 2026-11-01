@@ -1268,5 +1268,47 @@
     "tipster": "",
     "match": "Combo vs pick",
     "timestamp": "2026-10-29T21:42:57+00:00"
+  },
+  "d2df8f637777": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Ikast KFUM vs Gentofte Volleystake: 10/10",
+    "timestamp": "2026-11-01T12:03:15+00:00"
+  },
+  "fb284affcf9f": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Nordenskov UIF vs Amager Vkstake: 10/10",
+    "timestamp": "2026-11-01T12:01:58+00:00"
+  },
+  "37381b9b6409": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "ASV Arhus vs Hvidovre VKstake: 10/10",
+    "timestamp": "2026-11-01T12:00:44+00:00"
+  },
+  "9583273e0bc3": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-11-01T11:14:22+00:00"
+  },
+  "a69be25bc7ab": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Ikast KFUM vs Gentofte Volley",
+    "timestamp": "2026-11-01T11:12:09+00:00"
+  },
+  "72f5ce2e208e": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "volleyball1",
+    "match": "VC Aktobe (W) vs Berel BKO (W)",
+    "timestamp": "2026-11-01T08:53:12+00:00"
   }
 }
