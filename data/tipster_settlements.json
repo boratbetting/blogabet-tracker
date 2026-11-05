@@ -1366,5 +1366,19 @@
     "tipster": "Berlin Tips",
     "match": "GEN vs I Volley (W) - Vk Prostejov (W)",
     "timestamp": "2026-11-04T09:27:16+00:00"
+  },
+  "072a730bc3a8": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Eera vs Beit Ids",
+    "timestamp": "2026-11-05T13:20:40+00:00"
+  },
+  "4a8827d5686b": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Eera vs Beit Ids",
+    "timestamp": "2026-11-05T13:11:12+00:00"
   }
 }
