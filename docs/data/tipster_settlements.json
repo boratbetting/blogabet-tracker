@@ -1422,5 +1422,12 @@
     "tipster": "Berlin Tips",
     "match": "Lunds VK vs Habo",
     "timestamp": "2026-11-07T13:04:56+00:00"
+  },
+  "6faf8375a080": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Jimbeam",
+    "match": "Stocke vs Hylte",
+    "timestamp": "2026-11-07T18:21:08+00:00"
   }
 }
