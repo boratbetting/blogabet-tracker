@@ -1387,5 +1387,40 @@
     "tipster": "Berlin Tips",
     "match": "Aris vs Panionios",
     "timestamp": "2026-11-07T06:39:12+00:00"
+  },
+  "743171ddb4da": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Ampelokipoi (W) vs Thetis (W)",
+    "timestamp": "2026-11-07T14:40:57+00:00"
+  },
+  "cc39ab91a13f": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-11-07T14:30:31+00:00"
+  },
+  "d972bb4c6b94": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Lausanne UC vs Colombier Volley",
+    "timestamp": "2026-11-07T13:08:58+00:00"
+  },
+  "87919716117e": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Lunds VK vs Habo",
+    "timestamp": "2026-11-07T13:06:32+00:00"
+  },
+  "eb3b295722bc": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Lunds VK vs Habo",
+    "timestamp": "2026-11-07T13:04:56+00:00"
   }
 }
