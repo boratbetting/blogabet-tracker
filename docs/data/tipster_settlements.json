@@ -1429,5 +1429,12 @@
     "tipster": "Jimbeam",
     "match": "Stocke vs Hylte",
     "timestamp": "2026-11-07T18:21:08+00:00"
+  },
+  "fb2afd21378d": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Al Zohour (W) vs 6 October Club (W)",
+    "timestamp": "2026-11-09T14:02:08+00:00"
   }
 }
