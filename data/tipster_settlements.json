@@ -1443,5 +1443,12 @@
     "tipster": "Donut",
     "match": "AZS Olsztyn vs LUK Lublin",
     "timestamp": "2026-11-09T16:55:52+00:00"
+  },
+  "aba4b11b59ce": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "Palac Bydgoszcz(W) vs Volley Wroclaw(W)",
+    "timestamp": "2026-11-10T17:31:19+00:00"
   }
 }
