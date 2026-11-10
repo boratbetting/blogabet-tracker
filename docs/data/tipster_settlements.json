@@ -1436,5 +1436,12 @@
     "tipster": "Berlin Tips",
     "match": "Al Zohour (W) vs 6 October Club (W)",
     "timestamp": "2026-11-09T14:02:08+00:00"
+  },
+  "067275af332e": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Donut",
+    "match": "AZS Olsztyn vs LUK Lublin",
+    "timestamp": "2026-11-09T16:55:52+00:00"
   }
 }
