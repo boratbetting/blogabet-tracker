@@ -1450,5 +1450,19 @@
     "tipster": "Donut",
     "match": "Palac Bydgoszcz(W) vs Volley Wroclaw(W)",
     "timestamp": "2026-11-10T17:31:19+00:00"
+  },
+  "2f2e291ee1b2": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Ciudad Voley B vs Club Italianostake: 10/10",
+    "timestamp": "2026-11-10T21:35:44+00:00"
+  },
+  "e9a11c590b2b": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Ciudad Voley B vs Club Italiano",
+    "timestamp": "2026-11-10T21:01:04+00:00"
   }
 }
