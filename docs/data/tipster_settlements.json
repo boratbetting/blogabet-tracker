@@ -1464,5 +1464,12 @@
     "tipster": "Berlin Tips",
     "match": "Ciudad Voley B vs Club Italiano",
     "timestamp": "2026-11-10T21:01:04+00:00"
+  },
+  "e3ce8e8947fa": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "fretham",
+    "match": "LP Viesti (W) vs Vampula (W)",
+    "timestamp": "2026-11-12T16:22:38+00:00"
   }
 }
