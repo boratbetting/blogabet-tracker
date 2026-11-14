@@ -1541,5 +1541,40 @@
     "tipster": "Berlin Tips",
     "match": "Partizani Tirana vs Vllaznia",
     "timestamp": "2026-11-13T15:06:34+00:00"
+  },
+  "beb5a2e83e1a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-11-14T11:03:21+00:00"
+  },
+  "095164e72901": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Flogboltsfelagid Ternan (W) vs Fleyr (W)",
+    "timestamp": "2026-11-14T11:00:19+00:00"
+  },
+  "02c1fbb7da07": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-11-14T10:59:57+00:00"
+  },
+  "fa7c15ae1742": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Sodertelge B vs Sodermalm",
+    "timestamp": "2026-11-14T10:59:38+00:00"
+  },
+  "14256bf54301": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Stocke vs Uppsala B",
+    "timestamp": "2026-11-14T10:58:46+00:00"
   }
 }
