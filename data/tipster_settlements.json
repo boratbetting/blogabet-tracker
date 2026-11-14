@@ -1576,5 +1576,26 @@
     "tipster": "Berlin Tips",
     "match": "Stocke vs Uppsala B",
     "timestamp": "2026-11-14T10:58:46+00:00"
+  },
+  "d07255958199": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-11-14T13:24:12+00:00"
+  },
+  "9142a31f28c5": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "OK Karadjordje vs Vojvodina Novi Sad",
+    "timestamp": "2026-11-14T13:21:19+00:00"
+  },
+  "66fbe9bf2269": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "SK Jekabpils Lusi vs RTU/Robezsardze",
+    "timestamp": "2026-11-14T13:20:50+00:00"
   }
 }
