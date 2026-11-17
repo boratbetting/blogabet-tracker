@@ -1604,5 +1604,54 @@
     "tipster": "Berlin Tips",
     "match": "Heliopolis (W) vs Ashab Aljead (W)",
     "timestamp": "2026-11-16T12:09:39+00:00"
+  },
+  "67d44c7aa851": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "AEL Limassol (W) vs AEK Larnaca (W)",
+    "timestamp": "2026-11-17T15:20:11+00:00"
+  },
+  "1b35be9e1311": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Fleyr (W) vs Drattur (W)",
+    "timestamp": "2026-11-17T14:19:57+00:00"
+  },
+  "00a4f9921b38": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "RTU/Robezsardze vs Metalac Takovo",
+    "timestamp": "2026-11-17T12:30:13+00:00"
+  },
+  "85e407e67781": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "RTU/Robezsardze vs Metalac Takovo",
+    "timestamp": "2026-11-17T11:52:57+00:00"
+  },
+  "3c6947ac8297": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Istanbul Genclik Spor vs Maccabi Tel Aviv",
+    "timestamp": "2026-11-17T11:47:35+00:00"
+  },
+  "b5ef6965604b": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-11-17T11:39:55+00:00"
+  },
+  "2715a24fe651": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "CSKA Sofia vs Epicentr-Podolyany HORODOK",
+    "timestamp": "2026-11-17T11:22:54+00:00"
   }
 }
