@@ -1716,5 +1716,19 @@
     "tipster": "",
     "match": "Combo vs pick",
     "timestamp": "2026-11-18T21:01:27+00:00"
+  },
+  "69e3721f1c12": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "",
+    "match": "Combo vs pick",
+    "timestamp": "2026-11-19T12:13:33+00:00"
+  },
+  "d42455e808b0": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Bigbank Tartu vs Nafels",
+    "timestamp": "2026-11-19T11:35:54+00:00"
   }
 }
