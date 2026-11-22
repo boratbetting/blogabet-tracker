@@ -1793,5 +1793,33 @@
     "tipster": "Berlin Tips",
     "match": "Equity Bank vs Prisons Nairobi",
     "timestamp": "2026-11-22T07:15:50+00:00"
+  },
+  "90aeae81365c": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "volleyball1",
+    "match": "Pro Victoria Pallavolo U19 vs Pallavolo GSA U19",
+    "timestamp": "2026-11-22T16:54:54+00:00"
+  },
+  "526f6da06c2b": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "KIF (W) vs Flogboltsfelagid Ternan (W)",
+    "timestamp": "2026-11-22T14:16:23+00:00"
+  },
+  "f902e9b8fc6a": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "VBK Solna (W) vs Lule Volley (W)",
+    "timestamp": "2026-11-22T13:40:43+00:00"
+  },
+  "1602a1e36f83": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "RTU/Robezsardze vs Selver/TalTech",
+    "timestamp": "2026-11-22T13:25:18+00:00"
   }
 }
