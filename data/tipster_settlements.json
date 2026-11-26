@@ -1828,5 +1828,19 @@
     "tipster": "Berlin Tips",
     "match": "Sesi vs Bauru - Norde Volei",
     "timestamp": "2026-11-22T17:27:27+00:00"
+  },
+  "4087dce14874": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Floby vs Habo",
+    "timestamp": "2026-11-26T00:28:06+00:00"
+  },
+  "de4cd677ae0e": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Sollentuna vs Sodertelge",
+    "timestamp": "2026-11-25T23:32:03+00:00"
   }
 }
