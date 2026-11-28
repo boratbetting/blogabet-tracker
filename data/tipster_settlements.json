@@ -1849,5 +1849,12 @@
     "tipster": "Berlin Tips",
     "match": "Ternan vs Fleyr",
     "timestamp": "2026-11-26T16:54:41+00:00"
+  },
+  "cf434f8a4cb9": {
+    "status": "unmatched",
+    "reason": "not found in BetsAPI",
+    "tipster": "Berlin Tips",
+    "match": "Norde Volei vs Goias Volei",
+    "timestamp": "2026-11-27T20:08:48+00:00"
   }
 }
